@@ -1,22 +1,12 @@
 import "../../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
-import { createClient, Provider } from "urql";
-
-const client = createClient({
-  url: "https://localhost:8888/graphql",
-  fetchOptions: {
-    credentials: "include",
-  },
-});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Provider value={client}>
-      <ChakraProvider resetCSS>
-        <Component {...pageProps} />
-      </ChakraProvider>
-    </Provider>
+    <ChakraProvider resetCSS>
+      <Component {...pageProps} />
+    </ChakraProvider>
   );
 }
 export default MyApp;
