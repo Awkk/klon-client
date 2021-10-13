@@ -4,7 +4,7 @@ import { Formik, Form, FormikHelpers } from "formik";
 import { withUrqlClient } from "next-urql";
 import React from "react";
 import { InputField } from "../../components/InputField";
-import { Wrapper } from "../../components/Wrapper";
+import { Layout } from "../../components/Layout";
 import { useCreatePostMutation } from "../../generated/graphql";
 import { urqlClientConfig } from "../../utils/urqlClientConfig";
 
@@ -28,7 +28,7 @@ const CreatePost: React.FC<{}> = ({}) => {
   };
 
   return (
-    <Wrapper variant="small">
+    <Layout variant="small">
       <Formik initialValues={initialValues} onSubmit={submitPost}>
         {({ isSubmitting }) => (
           <Form>
@@ -48,7 +48,7 @@ const CreatePost: React.FC<{}> = ({}) => {
           </Form>
         )}
       </Formik>
-    </Wrapper>
+    </Layout>
   );
 };
 

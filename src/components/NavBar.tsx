@@ -51,6 +51,13 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
 
   return (
     <Flex bg="darkgray" p={"4"}>
+      <Box>
+        <NextLink href="/">
+          <Link color={"white"} mr={"5"}>
+            Home
+          </Link>
+        </NextLink>
+      </Box>
       <Box ml={"auto"}>{links}</Box>
     </Flex>
   );

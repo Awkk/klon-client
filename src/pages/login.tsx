@@ -1,6 +1,5 @@
 import React from "react";
 import { Formik, Form, FormikHelpers } from "formik";
-import { Wrapper } from "../components/Wrapper";
 import { Box, Button } from "@chakra-ui/react";
 import { InputField } from "../components/InputField";
 import { useLoginMutation } from "../generated/graphql";
@@ -8,6 +7,7 @@ import { errorsToMap } from "../utils/errorsToMap";
 import { useRouter } from "next/dist/client/router";
 import { withUrqlClient } from "next-urql";
 import { urqlClientConfig } from "../utils/urqlClientConfig";
+import { Layout } from "../components/Layout";
 
 interface LoginProps {}
 
@@ -35,7 +35,7 @@ const Login: React.FC<LoginProps> = () => {
   };
 
   return (
-    <Wrapper variant="small">
+    <Layout variant="small">
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={submitLogin}
@@ -67,7 +67,7 @@ const Login: React.FC<LoginProps> = () => {
           </Form>
         )}
       </Formik>
-    </Wrapper>
+    </Layout>
   );
 };
 
