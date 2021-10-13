@@ -112,6 +112,13 @@ export type UserFragmentFragment = { __typename?: 'User', id: number, username: 
 
 export type UserResponseFragmentFragment = { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
 
+export type CreatePostMutationVariables = Exact<{
+  input: PostInput;
+}>;
+
+
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, title: string, text: string, score: number, views: string, authorId: number, createdDate: any, updatedDate: any } };
+
 export type LoginMutationVariables = Exact<{
   auth: UserAuthInput;
 }>;
@@ -164,6 +171,24 @@ export const UserResponseFragmentFragmentDoc = gql`
 }
     ${UserFragmentFragmentDoc}
 ${FieldErrorFragmentFragmentDoc}`;
+export const CreatePostDocument = gql`
+    mutation CreatePost($input: PostInput!) {
+  createPost(input: $input) {
+    id
+    title
+    text
+    score
+    views
+    authorId
+    createdDate
+    updatedDate
+  }
+}
+    `;
+
+export function useCreatePostMutation() {
+  return Urql.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument);
+};
 export const LoginDocument = gql`
     mutation Login($auth: UserAuthInput!) {
   login(auth: $auth) {
