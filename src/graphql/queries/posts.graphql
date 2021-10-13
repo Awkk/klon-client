@@ -1,0 +1,12 @@
+query Posts {
+  posts {
+    id
+    title
+    text
+    authorId
+    score
+    views
+    createdDate
+    updatedDate
+  }
+}

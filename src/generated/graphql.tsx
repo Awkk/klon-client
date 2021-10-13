@@ -34,7 +34,7 @@ export type Mutation = {
 
 
 export type MutationCreatePostArgs = {
-  title: Scalars['String'];
+  input: PostInput;
 };
 
 
@@ -55,15 +55,24 @@ export type MutationRegisterArgs = {
 
 export type MutationUpdatePostArgs = {
   id: Scalars['Int'];
-  title: Scalars['String'];
+  input: PostInput;
 };
 
 export type Post = {
   __typename?: 'Post';
+  authorId: Scalars['Float'];
   createdDate: Scalars['DateTime'];
   id: Scalars['Int'];
+  score: Scalars['Float'];
+  text: Scalars['String'];
   title: Scalars['String'];
   updatedDate: Scalars['DateTime'];
+  views: Scalars['String'];
+};
+
+export type PostInput = {
+  text: Scalars['String'];
+  title: Scalars['String'];
 };
 
 export type Query = {
@@ -126,6 +135,11 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', createdDate: any, updatedDate: any, id: number, username: string } | null | undefined };
+
+export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, text: string, authorId: number, score: number, views: string, createdDate: any, updatedDate: any }> };
 
 export const UserFragmentFragmentDoc = gql`
     fragment UserFragment on User {
@@ -193,4 +207,22 @@ export const MeDocument = gql`
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const PostsDocument = gql`
+    query Posts {
+  posts {
+    id
+    title
+    text
+    authorId
+    score
+    views
+    createdDate
+    updatedDate
+  }
+}
+    `;
+
+export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
 };
