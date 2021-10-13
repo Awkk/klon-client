@@ -6,7 +6,7 @@ import React from "react";
 import { InputField } from "../../components/InputField";
 import { Layout } from "../../components/Layout";
 import { useCreatePostMutation } from "../../generated/graphql";
-import { urqlClientConfig } from "../../utils/urqlClientConfig";
+import { urqlClientConfig } from "../../config/urqlClientConfig";
 
 interface FormData {
   title: string;

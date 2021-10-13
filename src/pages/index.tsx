@@ -2,7 +2,7 @@ import { Link } from "@chakra-ui/layout";
 import type { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { usePostsQuery } from "../generated/graphql";
-import { urqlClientConfig } from "../utils/urqlClientConfig";
+import { urqlClientConfig } from "../config/urqlClientConfig";
 import NextLink from "next/link";
 import { Layout } from "../components/Layout";
 

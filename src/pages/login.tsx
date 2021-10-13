@@ -6,7 +6,7 @@ import { useLoginMutation } from "../generated/graphql";
 import { errorsToMap } from "../utils/errorsToMap";
 import { useRouter } from "next/dist/client/router";
 import { withUrqlClient } from "next-urql";
-import { urqlClientConfig } from "../utils/urqlClientConfig";
+import { urqlClientConfig } from "../config/urqlClientConfig";
 import { Layout } from "../components/Layout";
 
 interface LoginProps {}
