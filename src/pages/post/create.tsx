@@ -34,7 +34,12 @@ const CreatePost: React.FC<{}> = ({}) => {
           <Form>
             <InputField name="title" label="Title" placeholder="title" />
             <Box mt={4}>
-              <InputField name="text" label="Text" placeholder="text" />
+              <InputField
+                name="text"
+                label="Text"
+                placeholder="text"
+                textarea
+              />
             </Box>
             <Button
               mt={4}
