@@ -7,6 +7,7 @@ import { InputField } from "../../components/InputField";
 import { Layout } from "../../components/Layout";
 import { useCreatePostMutation } from "../../generated/graphql";
 import { urqlClientConfig } from "../../config/urqlClientConfig";
+import { useRequireAuth } from "../../hooks/useRequireAuth";
 
 interface FormData {
   title: string;
@@ -19,6 +20,7 @@ const initialValues: FormData = {
 };
 
 const CreatePost: React.FC<{}> = ({}) => {
+  useRequireAuth();
   const [, createPost] = useCreatePostMutation();
 
   const submitPost = async (values: FormData, {}: FormikHelpers<FormData>) => {
