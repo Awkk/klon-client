@@ -30,7 +30,11 @@ const Login: React.FC<LoginProps> = () => {
       // Convert errors to map, with fields as key and message as value
       setErrors(errorsToMap(userResponse?.errors));
     } else if (userResponse?.user) {
-      router.push("/");
+      if (typeof router.query.next === "string") {
+        router.push(router.query.next);
+      } else {
+        router.push("/");
+      }
     }
   };
 
