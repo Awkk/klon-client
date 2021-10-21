@@ -30,6 +30,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   register: UserResponse;
   updatePost?: Maybe<Post>;
+  vote: Scalars['Boolean'];
 };
 
 
@@ -58,6 +59,12 @@ export type MutationUpdatePostArgs = {
   input: PostInput;
 };
 
+
+export type MutationVoteArgs = {
+  postId: Scalars['Int'];
+  value: Scalars['Int'];
+};
+
 export type PaginatedPosts = {
   __typename?: 'PaginatedPosts';
   hasMore: Scalars['Boolean'];
@@ -66,10 +73,11 @@ export type PaginatedPosts = {
 
 export type Post = {
   __typename?: 'Post';
-  authorId: Scalars['Float'];
+  author: User;
+  authorId: Scalars['Int'];
   createdDate: Scalars['DateTime'];
   id: Scalars['Int'];
-  score: Scalars['Float'];
+  score: Scalars['Int'];
   text: Scalars['String'];
   title: Scalars['String'];
   updatedDate: Scalars['DateTime'];
@@ -105,6 +113,7 @@ export type User = {
   id: Scalars['Int'];
   updatedDate: Scalars['DateTime'];
   username: Scalars['String'];
+  votes: Array<Vote>;
 };
 
 export type UserAuthInput = {
@@ -116,6 +125,15 @@ export type UserResponse = {
   __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
   user?: Maybe<User>;
+};
+
+export type Vote = {
+  __typename?: 'Vote';
+  post: Post;
+  postId: Scalars['Int'];
+  user: User;
+  userId: Scalars['Int'];
+  value: Scalars['Int'];
 };
 
 export type FieldErrorFragmentFragment = { __typename?: 'FieldError', field: string, message: string };
@@ -149,6 +167,14 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } };
+
+export type VoteMutationVariables = Exact<{
+  value: Scalars['Int'];
+  postId: Scalars['Int'];
+}>;
+
+
+export type VoteMutation = { __typename?: 'Mutation', vote: boolean };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -234,6 +260,15 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const VoteDocument = gql`
+    mutation Vote($value: Int!, $postId: Int!) {
+  vote(value: $value, postId: $postId)
+}
+    `;
+
+export function useVoteMutation() {
+  return Urql.useMutation<VoteMutation, VoteMutationVariables>(VoteDocument);
 };
 export const MeDocument = gql`
     query Me {
