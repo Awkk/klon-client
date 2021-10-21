@@ -1,6 +1,7 @@
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 import { PostsQueryVariables, usePostsQuery } from "../generated/graphql";
+import { VoteSection } from "./VoteSection";
 
 type PostPageProps = {
   variables: PostsQueryVariables;
@@ -20,13 +21,13 @@ export const PostPage = ({
       <Box>
         {data?.posts.posts.map((post) => (
           <Flex key={post.id} p={5} borderWidth="1px">
-            <Box flex={1}>
-              <Flex>
-                <Box mr={"auto"}>{post.id}</Box>
-                <Box>{post.createdDate}</Box>
-              </Flex>
+            <VoteSection post={post} />
+            <Flex direction={"column"} ml={5}>
               <Heading fontSize="xl">{post.title}</Heading>
-            </Box>
+              <Text mr={2}>
+                Posted by {post.author.username} {post.createdDate}
+              </Text>
+            </Flex>
           </Flex>
         ))}
       </Box>

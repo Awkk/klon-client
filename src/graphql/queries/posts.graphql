@@ -5,7 +5,12 @@ query Posts($limit: Int, $cursor: String) {
       title
       score
       views
+      voteStatus
       authorId
+      author {
+        id
+        username
+      }
       createdDate
       updatedDate
     }

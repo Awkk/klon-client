@@ -82,6 +82,7 @@ export type Post = {
   title: Scalars['String'];
   updatedDate: Scalars['DateTime'];
   views: Scalars['String'];
+  voteStatus: Scalars['Int'];
 };
 
 export type PostInput = {
@@ -187,7 +188,7 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, score: number, views: string, authorId: number, createdDate: any, updatedDate: any }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, score: number, views: string, voteStatus: number, authorId: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }> } };
 
 export const UserFragmentFragmentDoc = gql`
     fragment UserFragment on User {
@@ -291,7 +292,12 @@ export const PostsDocument = gql`
       title
       score
       views
+      voteStatus
       authorId
+      author {
+        id
+        username
+      }
       createdDate
       updatedDate
     }
