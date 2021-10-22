@@ -3,7 +3,8 @@ import React from "react";
 import NextLink from "next/link";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { Button, IconButton } from "@chakra-ui/button";
-import { SunIcon } from "@chakra-ui/icons";
+import { SunIcon, MoonIcon } from "@chakra-ui/icons";
+import { useColorMode } from "@chakra-ui/color-mode";
 
 interface NavBarProps {}
 
@@ -12,6 +13,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   const [{ data, fetching: meFetching }, me] = useMeQuery({
     requestPolicy: "network-only",
   });
+  const { colorMode, toggleColorMode } = useColorMode();
 
   let links;
 
@@ -27,7 +29,6 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
           variant="ghost"
           colorScheme="teal"
           fontSize="md"
-          textColor='black'
         >
           {data.me.username}
         </Button>
@@ -64,8 +65,15 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   }
 
   return (
-    <Flex bg="gray.50" px="4" py="0.5" position="sticky" top={0} zIndex={1}>
-      <Flex flex={1} m="auto" align="center" maxW="7xl">
+    <Box
+      borderBottom='1px solid gray'
+      px="4"
+      py="0.5"
+      position="sticky"
+      top={0}
+      zIndex={1}
+    >
+      <Flex justifyItems="space-between" alignItems="center" maxW="7xl">
         <Box>
           <NextLink href="/">
             <Text mr="5" cursor="pointer" fontSize="3xl" fontWeight="bold">
@@ -81,9 +89,10 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
           colorScheme="teal"
           aria-label="Call Sage"
           fontSize="20px"
-          icon={<SunIcon />}
+          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          onClick={toggleColorMode}
         />
       </Flex>
-    </Flex>
+    </Box>
   );
 };
