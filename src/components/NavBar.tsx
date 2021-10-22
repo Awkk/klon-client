@@ -1,8 +1,9 @@
-import { Box, Flex, Link } from "@chakra-ui/layout";
+import { Box, Flex, Link, Text } from "@chakra-ui/layout";
 import React from "react";
 import NextLink from "next/link";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
-import { Button } from "@chakra-ui/button";
+import { Button, IconButton } from "@chakra-ui/button";
+import { SunIcon } from "@chakra-ui/icons";
 
 interface NavBarProps {}
 
@@ -19,10 +20,21 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   } else if (data?.me) {
     // User logged in
     links = (
-      <Flex>
-        <Box mr={5}>{data.me.username}</Box>
+      <Flex align={"center"}>
         <Button
-          variant={"link"}
+          mr="2"
+          size="sm"
+          variant="ghost"
+          colorScheme="teal"
+          fontSize="md"
+          textColor='black'
+        >
+          {data.me.username}
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          colorScheme="teal"
           isLoading={logoutFetching}
           onClick={async () => {
             await logout();
@@ -38,27 +50,40 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     links = (
       <>
         <NextLink href="/login">
-          <Link color={"white"} mr={"5"}>
+          <Button mr="2" size="sm" variant="outline" colorScheme="teal">
             Log In
-          </Link>
+          </Button>
         </NextLink>
         <NextLink href="/register">
-          <Link color={"white"}>Sign Up</Link>
+          <Button size="sm" colorScheme="teal">
+            Sign Up
+          </Button>
         </NextLink>
       </>
     );
   }
 
   return (
-    <Flex bg="darkgray" p={"4"}>
-      <Box>
-        <NextLink href="/">
-          <Link color={"white"} mr={"5"}>
-            Home
-          </Link>
-        </NextLink>
-      </Box>
-      <Box ml={"auto"}>{links}</Box>
+    <Flex bg="gray.50" px="4" py="0.5" position="sticky" top={0} zIndex={1}>
+      <Flex flex={1} m="auto" align="center" maxW="7xl">
+        <Box>
+          <NextLink href="/">
+            <Text mr="5" cursor="pointer" fontSize="3xl" fontWeight="bold">
+              Klon
+            </Text>
+          </NextLink>
+        </Box>
+        <Box ml="auto" mr="1">
+          {links}
+        </Box>
+        <IconButton
+          variant="ghost"
+          colorScheme="teal"
+          aria-label="Call Sage"
+          fontSize="20px"
+          icon={<SunIcon />}
+        />
+      </Flex>
     </Flex>
   );
 };
