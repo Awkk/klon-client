@@ -7,7 +7,6 @@ import { errorsToMap } from "../utils/errorsToMap";
 import { useRouter } from "next/dist/client/router";
 import { withUrqlClient } from "next-urql";
 import { urqlClientConfig } from "../config/urqlClientConfig";
-import { Layout } from "../components/Layout";
 
 interface RegisterProps {}
 
@@ -35,7 +34,7 @@ const Register: React.FC<RegisterProps> = () => {
   };
 
   return (
-    <Layout variant="small">
+    <Box w="100%" maxW="md" m="3">
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={submitRegister}
@@ -67,7 +66,7 @@ const Register: React.FC<RegisterProps> = () => {
           </Form>
         )}
       </Formik>
-    </Layout>
+    </Box>
   );
 };
 

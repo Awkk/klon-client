@@ -2,7 +2,6 @@ import { Box, Heading, Text } from "@chakra-ui/layout";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import React from "react";
-import { Layout } from "../../components/Layout";
 import { urqlClientConfig } from "../../config/urqlClientConfig";
 import { usePostQuery } from "../../generated/graphql";
 
@@ -18,13 +17,11 @@ const Post: React.FC<PostProps> = ({}) => {
   });
 
   return (
-    <Layout>
-      <Box p={3}>
-        <Heading>{data?.post?.title}</Heading>
-        <Text>{data?.post?.text}</Text>
-        <Text>{data?.post?.views}</Text>
-      </Box>
-    </Layout>
+    <Box p={3}>
+      <Heading>{data?.post?.title}</Heading>
+      <Text>{data?.post?.text}</Text>
+      <Text>{data?.post?.views}</Text>
+    </Box>
   );
 };
 

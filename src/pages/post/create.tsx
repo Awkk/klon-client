@@ -4,7 +4,6 @@ import { Formik, Form, FormikHelpers } from "formik";
 import { withUrqlClient } from "next-urql";
 import React from "react";
 import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
 import { useCreatePostMutation } from "../../generated/graphql";
 import { urqlClientConfig } from "../../config/urqlClientConfig";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
@@ -30,32 +29,25 @@ const CreatePost: React.FC<{}> = ({}) => {
   };
 
   return (
-    <Layout variant="small">
-      <Formik initialValues={initialValues} onSubmit={submitPost}>
-        {({ isSubmitting }) => (
-          <Form>
-            <InputField name="title" label="Title" placeholder="title" />
-            <Box mt={4}>
-              <InputField
-                name="text"
-                label="Text"
-                placeholder="text"
-                textarea
-              />
-            </Box>
-            <Button
-              mt={4}
-              type="submit"
-              isLoading={isSubmitting}
-              variant="solid"
-              colorScheme="blackAlpha"
-            >
-              POST
-            </Button>
-          </Form>
-        )}
-      </Formik>
-    </Layout>
+    <Formik initialValues={initialValues} onSubmit={submitPost}>
+      {({ isSubmitting }) => (
+        <Form>
+          <InputField name="title" label="Title" placeholder="title" />
+          <Box mt={4}>
+            <InputField name="text" label="Text" placeholder="text" textarea />
+          </Box>
+          <Button
+            mt={4}
+            type="submit"
+            isLoading={isSubmitting}
+            variant="solid"
+            colorScheme="blackAlpha"
+          >
+            POST
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

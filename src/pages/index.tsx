@@ -1,9 +1,8 @@
-import { Link } from "@chakra-ui/layout";
+import { Box, Link } from "@chakra-ui/layout";
 import type { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import NextLink from "next/link";
 import React, { useState } from "react";
-import { Layout } from "../components/Layout";
 import { PostPage } from "../components/PostPage";
 import { urqlClientConfig } from "../config/urqlClientConfig";
 
@@ -15,7 +14,7 @@ const Home: NextPage = () => {
   ]);
 
   return (
-    <Layout>
+    <Box w={["100%", "75%"]}>
       <NextLink href="/post/create">
         <Link>Create Post</Link>
       </NextLink>
@@ -31,7 +30,7 @@ const Home: NextPage = () => {
           />
         );
       })}
-    </Layout>
+    </Box>
   );
 };
 

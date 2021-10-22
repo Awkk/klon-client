@@ -1,16 +1,16 @@
+import { Flex } from "@chakra-ui/layout";
 import React from "react";
 import { NavBar } from "./NavBar";
-import { Wrapper, WrapperVariant } from "./Wrapper";
 
-interface LayoutProps {
-  variant?: WrapperVariant;
-}
+interface LayoutProps {}
 
-export const Layout: React.FC<LayoutProps> = ({ children, variant }) => {
+export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <NavBar />
-      <Wrapper variant={variant}>{children}</Wrapper>
+      <Flex justifyContent="center" p="2">
+        {children}
+      </Flex>
     </>
   );
 };

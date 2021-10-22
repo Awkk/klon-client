@@ -4,7 +4,8 @@ import NextLink from "next/link";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { Button, IconButton } from "@chakra-ui/button";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
-import { useColorMode } from "@chakra-ui/color-mode";
+import { useColorMode, useColorModeValue } from "@chakra-ui/color-mode";
+import { Spinner } from "@chakra-ui/react";
 
 interface NavBarProps {}
 
@@ -14,22 +15,18 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     requestPolicy: "network-only",
   });
   const { colorMode, toggleColorMode } = useColorMode();
+  const bgColor = useColorModeValue("gray.50", "gray.800");
 
   let links;
 
   if (meFetching) {
-    // Show nothing when fetching user data
+    // Fetching user data
+    links = <Spinner />;
   } else if (data?.me) {
     // User logged in
     links = (
       <Flex align={"center"}>
-        <Button
-          mr="2"
-          size="sm"
-          variant="ghost"
-          colorScheme="teal"
-          fontSize="md"
-        >
+        <Button size="sm" variant="ghost" colorScheme="teal" fontSize="md">
           {data.me.username}
         </Button>
         <Button
@@ -66,14 +63,20 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
 
   return (
     <Box
-      borderBottom='1px solid gray'
+      borderBottom="1px solid gray"
       px="4"
       py="0.5"
       position="sticky"
       top={0}
       zIndex={1}
+      bgColor={bgColor}
     >
-      <Flex justifyItems="space-between" alignItems="center" maxW="7xl">
+      <Flex
+        justifyItems="space-between"
+        alignItems="center"
+        maxW="7xl"
+        mx="auto"
+      >
         <Box>
           <NextLink href="/">
             <Text mr="5" cursor="pointer" fontSize="3xl" fontWeight="bold">
@@ -81,9 +84,9 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
             </Text>
           </NextLink>
         </Box>
-        <Box ml="auto" mr="1">
+        <Flex ml="auto" mr="1" align="center">
           {links}
-        </Box>
+        </Flex>
         <IconButton
           variant="ghost"
           colorScheme="teal"

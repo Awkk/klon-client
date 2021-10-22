@@ -7,7 +7,6 @@ import { errorsToMap } from "../utils/errorsToMap";
 import { useRouter } from "next/dist/client/router";
 import { withUrqlClient } from "next-urql";
 import { urqlClientConfig } from "../config/urqlClientConfig";
-import { Layout } from "../components/Layout";
 
 interface LoginProps {}
 
@@ -39,7 +38,7 @@ const Login: React.FC<LoginProps> = () => {
   };
 
   return (
-    <Layout variant="small">
+    <Box w="100%" maxW="md" m="3">
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={submitLogin}
@@ -71,7 +70,7 @@ const Login: React.FC<LoginProps> = () => {
           </Form>
         )}
       </Formik>
-    </Layout>
+    </Box>
   );
 };
 
