@@ -16,6 +16,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   });
   const { colorMode, toggleColorMode } = useColorMode();
   const bgColor = useColorModeValue("gray.50", "gray.800");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
 
   let links;
 
@@ -63,7 +64,9 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
 
   return (
     <Box
-      borderBottom="1px solid gray"
+      w="100%"
+      borderBottom="1px"
+      borderBottomColor={borderColor}
       px="4"
       py="0.5"
       position="sticky"
@@ -79,7 +82,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
       >
         <Box>
           <NextLink href="/">
-            <Text mr="5" cursor="pointer" fontSize="3xl" fontWeight="bold">
+            <Text mx="4" cursor="pointer" fontSize="3xl" fontWeight="bold">
               Klon
             </Text>
           </NextLink>

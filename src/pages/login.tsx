@@ -1,12 +1,12 @@
+import { Box, Button, useColorModeValue } from "@chakra-ui/react";
+import { Form, Formik, FormikHelpers } from "formik";
+import { withUrqlClient } from "next-urql";
+import { useRouter } from "next/dist/client/router";
 import React from "react";
-import { Formik, Form, FormikHelpers } from "formik";
-import { Box, Button } from "@chakra-ui/react";
 import { InputField } from "../components/InputField";
+import { urqlClientConfig } from "../config/urqlClientConfig";
 import { useLoginMutation } from "../generated/graphql";
 import { errorsToMap } from "../utils/errorsToMap";
-import { useRouter } from "next/dist/client/router";
-import { withUrqlClient } from "next-urql";
-import { urqlClientConfig } from "../config/urqlClientConfig";
 
 interface LoginProps {}
 
@@ -18,6 +18,7 @@ interface FormData {
 const Login: React.FC<LoginProps> = () => {
   const [_, login] = useLoginMutation();
   const router = useRouter();
+  const bgColor = useColorModeValue("gray.50", "gray.800");
 
   const submitLogin = async (
     values: FormData,
@@ -38,7 +39,16 @@ const Login: React.FC<LoginProps> = () => {
   };
 
   return (
-    <Box w="100%" maxW="md" m="3">
+    <Box
+      w="100%"
+      maxW="sm"
+      h="fit-content"
+      m="4"
+      p="7"
+      bgColor={bgColor}
+      borderRadius="2xl"
+      overflow="hidden"
+    >
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={submitLogin}
@@ -50,7 +60,7 @@ const Login: React.FC<LoginProps> = () => {
               label="Username"
               placeholder="username"
             />
-            <Box mt={4}>
+            <Box mt="4">
               <InputField
                 name="password"
                 label="Password"
@@ -59,13 +69,14 @@ const Login: React.FC<LoginProps> = () => {
               />
             </Box>
             <Button
-              mt={4}
+              width="100%"
+              mt="5"
               type="submit"
               isLoading={isSubmitting}
               variant="solid"
-              colorScheme="blackAlpha"
+              colorScheme="teal"
             >
-              Login
+              Log In
             </Button>
           </Form>
         )}
