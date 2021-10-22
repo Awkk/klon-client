@@ -10,9 +10,13 @@ import { NextUrqlClientConfig, SSRExchange } from "next-urql";
 import Router from "next/router";
 import { cacheExchange } from "@urql/exchange-graphcache";
 import { VoteMutationVariables } from "../generated/graphql";
+import { createStandaloneToast } from "@chakra-ui/react";
+import { loginRequired } from "../utils/toastOptions";
 
 const onError = (error: CombinedError) => {
   if (error.message.includes("not authenticated")) {
+    const toast = createStandaloneToast();
+    toast(loginRequired);
     Router.replace("/login");
   }
 };

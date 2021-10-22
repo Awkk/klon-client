@@ -1,18 +1,20 @@
+import { useToast } from "@chakra-ui/toast";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { useMeQuery } from "../generated/graphql";
+import { loginRequired } from "../utils/toastOptions";
 
 export const useRequireAuth = () => {
   const [{ data, fetching }] = useMeQuery({
     requestPolicy: "network-only",
   });
   const router = useRouter();
+  const toast = useToast();
 
   useEffect(() => {
-    console.log("fetching, data", fetching, data);
     if (!fetching && !data?.me) {
-      console.log("useRequireAuth redirect:", router.pathname);
+      toast(loginRequired);
       router.replace(`/login?next=${router.pathname}`);
     }
-  }, [data, fetching, router]);
+  }, [data, fetching, router, toast]);
 };
