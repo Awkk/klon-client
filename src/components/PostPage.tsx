@@ -16,7 +16,6 @@ export const PostPage = ({
   onLoadMore,
 }: PostPageProps) => {
   const [{ data, fetching }] = usePostsQuery({ variables });
-  console.log(data?.posts);
   
   return (
     <>

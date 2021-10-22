@@ -16,7 +16,6 @@ const Post: React.FC<PostProps> = ({}) => {
     variables: { postId: postId },
     pause: postId === -1,
   });
-  console.log(data);
 
   return (
     <Layout>
