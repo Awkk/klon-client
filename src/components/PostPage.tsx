@@ -2,6 +2,7 @@ import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 import { PostsQueryVariables, usePostsQuery } from "../generated/graphql";
 import { VoteSection } from "./VoteSection";
+import NextLink from "next/link";
 
 type PostPageProps = {
   variables: PostsQueryVariables;
@@ -20,15 +21,23 @@ export const PostPage = ({
     <>
       <Box>
         {data?.posts.posts.map((post) => (
-          <Flex key={post.id} p={5} borderWidth="1px">
-            <VoteSection post={post} />
-            <Flex direction={"column"} ml={5}>
-              <Heading fontSize="xl">{post.title}</Heading>
-              <Text mr={2}>
-                Posted by {post.author.username} {post.createdDate}
-              </Text>
+          <NextLink key={post.id} href="/post/[id]" as={`/post/${post.id}`}>
+            <Flex p={5} borderWidth="1px">
+              <Box
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <VoteSection post={post} />
+              </Box>
+              <Flex direction={"column"} ml={5}>
+                <Heading fontSize="xl">{post.title}</Heading>
+                <Text mr={2}>
+                  Posted by {post.author.username} {post.createdDate}
+                </Text>
+              </Flex>
             </Flex>
-          </Flex>
+          </NextLink>
         ))}
       </Box>
       {(isLastPage && fetching) || (isLastPage && data?.posts.hasMore) ? (
