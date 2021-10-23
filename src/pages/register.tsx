@@ -7,6 +7,8 @@ import { InputField } from "../components/InputField";
 import { urqlClientConfig } from "../config/urqlClientConfig";
 import { useRegisterMutation } from "../generated/graphql";
 import { errorsToMap } from "../utils/errorsToMap";
+import * as Yup from "yup";
+import { password, username } from "../constants/validation";
 
 interface RegisterProps {}
 
@@ -21,6 +23,26 @@ const initialValues: FormData = {
   password: "",
   confirmPassword: "",
 };
+
+const validationSchema = Yup.object({
+  username: Yup.string()
+    .min(
+      username.minLength,
+      `Must be at least ${username.minLength} characters`
+    )
+    .max(username.maxLength, `Must be at most ${username.maxLength} characters`)
+    .required("Required"),
+  password: Yup.string()
+    .min(
+      password.minLength,
+      `Must be at least ${password.minLength} characters`
+    )
+    .max(password.maxLength, `Must be at most ${password.maxLength} characters`)
+    .required("Required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Required"),
+});
 
 const Register: React.FC<RegisterProps> = () => {
   const [_, register] = useRegisterMutation();
@@ -54,9 +76,13 @@ const Register: React.FC<RegisterProps> = () => {
       borderRadius="2xl"
       overflow="hidden"
     >
-      <Formik initialValues={initialValues} va onSubmit={submitRegister}>
-        {({ isSubmitting }) => (
-          <Form>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={submitRegister}
+      >
+        {({ handleSubmit, isSubmitting }) => (
+          <Form onSubmit={handleSubmit}>
             <VStack spacing={4}>
               <InputField
                 name="username"

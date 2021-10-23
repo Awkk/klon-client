@@ -7,6 +7,8 @@ import { InputField } from "../components/InputField";
 import { urqlClientConfig } from "../config/urqlClientConfig";
 import { useLoginMutation } from "../generated/graphql";
 import { errorsToMap } from "../utils/errorsToMap";
+import * as Yup from "yup";
+import { password, username } from "../constants/validation";
 
 interface LoginProps {}
 
@@ -19,6 +21,23 @@ const initialValues: FormData = {
   username: "",
   password: "",
 };
+
+const validationSchema = Yup.object({
+  username: Yup.string()
+    .min(
+      username.minLength,
+      `Must be at least ${username.minLength} characters`
+    )
+    .max(username.maxLength, `Must be at most ${username.maxLength} characters`)
+    .required("Required"),
+  password: Yup.string()
+    .min(
+      password.minLength,
+      `Must be at least ${password.minLength} characters`
+    )
+    .max(password.maxLength, `Must be at most ${password.maxLength} characters`)
+    .required("Required"),
+});
 
 const Login: React.FC<LoginProps> = () => {
   const [_, login] = useLoginMutation();
@@ -54,9 +73,13 @@ const Login: React.FC<LoginProps> = () => {
       borderRadius="2xl"
       overflow="hidden"
     >
-      <Formik initialValues={initialValues} onSubmit={submitLogin}>
-        {({ isSubmitting }) => (
-          <Form>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={submitLogin}
+      >
+        {({ handleSubmit, isSubmitting }) => (
+          <Form onSubmit={handleSubmit}>
             <InputField
               name="username"
               label="Username"
