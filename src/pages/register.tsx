@@ -1,12 +1,12 @@
+import { Box, Button, useColorModeValue, VStack } from "@chakra-ui/react";
+import { Form, Formik, FormikHelpers } from "formik";
+import { withUrqlClient } from "next-urql";
+import { useRouter } from "next/dist/client/router";
 import React from "react";
-import { Formik, Form, FormikHelpers } from "formik";
-import { Box, Button, Flex, useColorModeValue, VStack } from "@chakra-ui/react";
 import { InputField } from "../components/InputField";
+import { urqlClientConfig } from "../config/urqlClientConfig";
 import { useRegisterMutation } from "../generated/graphql";
 import { errorsToMap } from "../utils/errorsToMap";
-import { useRouter } from "next/dist/client/router";
-import { withUrqlClient } from "next-urql";
-import { urqlClientConfig } from "../config/urqlClientConfig";
 
 interface RegisterProps {}
 
