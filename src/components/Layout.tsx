@@ -1,5 +1,5 @@
 import { useColorModeValue } from "@chakra-ui/color-mode";
-import { Box, Flex } from "@chakra-ui/layout";
+import { Flex } from "@chakra-ui/layout";
 import React from "react";
 import { NavBar } from "./NavBar";
 

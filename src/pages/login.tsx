@@ -15,6 +15,11 @@ interface FormData {
   password: string;
 }
 
+const initialValues: FormData = {
+  username: "",
+  password: "",
+};
+
 const Login: React.FC<LoginProps> = () => {
   const [_, login] = useLoginMutation();
   const router = useRouter();
@@ -49,10 +54,7 @@ const Login: React.FC<LoginProps> = () => {
       borderRadius="2xl"
       overflow="hidden"
     >
-      <Formik
-        initialValues={{ username: "", password: "" }}
-        onSubmit={submitLogin}
-      >
+      <Formik initialValues={initialValues} onSubmit={submitLogin}>
         {({ isSubmitting }) => (
           <Form>
             <InputField

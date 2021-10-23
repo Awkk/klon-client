@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, FormikHelpers } from "formik";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Flex, useColorModeValue, VStack } from "@chakra-ui/react";
 import { InputField } from "../components/InputField";
 import { useRegisterMutation } from "../generated/graphql";
 import { errorsToMap } from "../utils/errorsToMap";
@@ -13,17 +13,27 @@ interface RegisterProps {}
 interface FormData {
   username: string;
   password: string;
+  confirmPassword: string;
 }
+
+const initialValues: FormData = {
+  username: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const Register: React.FC<RegisterProps> = () => {
   const [_, register] = useRegisterMutation();
   const router = useRouter();
+  const bgColor = useColorModeValue("gray.50", "gray.800");
 
   const submitRegister = async (
     values: FormData,
     { setErrors }: FormikHelpers<FormData>
   ) => {
-    const result = await register({ auth: values });
+    const result = await register({
+      auth: { username: values.username, password: values.password },
+    });
     const userResponse = result.data?.register;
     if (userResponse?.errors) {
       // Convert errors to map, with fields as key and message as value
@@ -34,35 +44,51 @@ const Register: React.FC<RegisterProps> = () => {
   };
 
   return (
-    <Box w="100%" maxW="md" m="3">
-      <Formik
-        initialValues={{ username: "", password: "" }}
-        onSubmit={submitRegister}
-      >
+    <Box
+      w="100%"
+      maxW="sm"
+      h="fit-content"
+      m="4"
+      p="7"
+      bgColor={bgColor}
+      borderRadius="2xl"
+      overflow="hidden"
+    >
+      <Formik initialValues={initialValues} va onSubmit={submitRegister}>
         {({ isSubmitting }) => (
           <Form>
-            <InputField
-              name="username"
-              label="Username"
-              placeholder="username"
-            />
-            <Box mt={4}>
+            <VStack spacing={4}>
+              <InputField
+                name="username"
+                label="Username"
+                placeholder="username"
+              />
+
               <InputField
                 name="password"
                 label="Password"
                 placeholder="password"
                 type="password"
               />
-            </Box>
-            <Button
-              mt={4}
-              type="submit"
-              isLoading={isSubmitting}
-              variant="solid"
-              colorScheme="blackAlpha"
-            >
-              register
-            </Button>
+
+              <InputField
+                name="confirmPassword"
+                label="Confirm Password"
+                placeholder="password"
+                type="password"
+              />
+
+              <Button
+                width="100%"
+                mt="5"
+                type="submit"
+                isLoading={isSubmitting}
+                variant="solid"
+                colorScheme="teal"
+              >
+                Sign Up
+              </Button>
+            </VStack>
           </Form>
         )}
       </Formik>
