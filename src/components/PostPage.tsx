@@ -1,8 +1,17 @@
-import { Box, Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Text,
+  useColorModeValue,
+  Tooltip,
+  Link,
+} from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
 import { PostsQueryVariables, usePostsQuery } from "../generated/graphql";
 import { VoteSection } from "./VoteSection";
+import { format } from "timeago.js";
 
 type PostPageProps = {
   variables: PostsQueryVariables;
@@ -43,11 +52,20 @@ export const PostPage = ({
               <VoteSection post={post} />
             </Box>
             <Flex direction={"column"} ml={5}>
+              <Flex fontSize="xs" color={infoTextColor} whiteSpace="pre-wrap">
+                <Text>Posted by </Text>
+                <NextLink href="/u/[id]" as={`/u/${post.author.id}`}>
+                  <Link>{post.author.username}</Link>
+                </NextLink>
+                <Text> </Text>
+                <Tooltip label={new Date(post.createdDate).toLocaleString()}>
+                  <Box _hover={{ textDecoration: "underline" }}>
+                    {format(post.createdDate)}
+                  </Box>
+                </Tooltip>
+              </Flex>
               <Text fontSize="md" fontWeight="medium">
                 {post.title}
-              </Text>
-              <Text fontSize="xs" color={infoTextColor}>
-                Posted by {post.author.username} {post.createdDate}
               </Text>
             </Flex>
           </Flex>
