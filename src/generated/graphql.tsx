@@ -181,7 +181,7 @@ export type VoteMutation = { __typename?: 'Mutation', vote: boolean };
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', createdDate: any, updatedDate: any, id: number, username: string } | null | undefined };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string } | null | undefined };
 
 export type PostQueryVariables = Exact<{
   postId: Scalars['Int'];
@@ -283,8 +283,6 @@ export const MeDocument = gql`
     query Me {
   me {
     ...UserFragment
-    createdDate
-    updatedDate
   }
 }
     ${UserFragmentFragmentDoc}`;

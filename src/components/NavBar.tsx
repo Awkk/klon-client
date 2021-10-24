@@ -11,9 +11,7 @@ interface NavBarProps {}
 
 export const NavBar: React.FC<NavBarProps> = ({}) => {
   const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
-  const [{ data, fetching: meFetching }, me] = useMeQuery({
-    requestPolicy: "network-only",
-  });
+  const [{ data, fetching: meFetching }] = useMeQuery();
   const { colorMode, toggleColorMode } = useColorMode();
   const bgColor = useColorModeValue("gray.50", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.700");
@@ -37,7 +35,6 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
           isLoading={logoutFetching}
           onClick={async () => {
             await logout();
-            me();
           }}
         >
           Log Out
