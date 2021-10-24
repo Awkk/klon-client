@@ -1,7 +1,12 @@
-import { IconButton } from "@chakra-ui/react";
 import { Flex } from "@chakra-ui/layout";
-import { TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
+import { IconButton, useColorModeValue, Text } from "@chakra-ui/react";
 import React from "react";
+import {
+  TiArrowDownOutline,
+  TiArrowDownThick,
+  TiArrowUpOutline,
+  TiArrowUpThick,
+} from "react-icons/ti";
 import { PostsQuery, useVoteMutation } from "../generated/graphql";
 
 interface VoteSectionProps {
@@ -17,11 +22,23 @@ enum VoteValue {
 export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
   const [_, vote] = useVoteMutation();
 
+  const voteGray = useColorModeValue("gray.300", "gray.600");
+
   return (
     <Flex direction={"column"} justifyContent={"center"} alignItems={"center"}>
       <IconButton
         aria-label="upvote post"
-        icon={<TriangleUpIcon />}
+        icon={
+          post.voteStatus === VoteValue.UpVote ? (
+            <TiArrowUpThick />
+          ) : (
+            <TiArrowUpOutline />
+          )
+        }
+        size="xs"
+        fontSize="2xl"
+        variant="ghost"
+        color={post.voteStatus === VoteValue.UpVote ? "red.500" : voteGray}
         onClick={() => {
           const value =
             post.voteStatus === VoteValue.UpVote
@@ -29,12 +46,21 @@ export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
               : VoteValue.UpVote;
           vote({ postId: post.id, value: value });
         }}
-        colorScheme={post.voteStatus === VoteValue.UpVote ? "green" : undefined}
       />
-      {post.score}
+      <Text fontSize="sm">{post.score}</Text>
       <IconButton
         aria-label="downvote post"
-        icon={<TriangleDownIcon />}
+        icon={
+          post.voteStatus === VoteValue.DownVote ? (
+            <TiArrowDownThick />
+          ) : (
+            <TiArrowDownOutline />
+          )
+        }
+        size="xs"
+        fontSize="2xl"
+        variant="ghost"
+        color={post.voteStatus === VoteValue.DownVote ? "blue.500" : voteGray}
         onClick={() => {
           const value =
             post.voteStatus === VoteValue.DownVote
@@ -42,7 +68,6 @@ export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
               : VoteValue.DownVote;
           vote({ postId: post.id, value: value });
         }}
-        colorScheme={post.voteStatus === VoteValue.DownVote ? "red" : undefined}
       />
     </Flex>
   );
