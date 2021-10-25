@@ -23,14 +23,18 @@ export const InputField: React.FC<InputFieldProps> = ({
   ...props
 }) => {
   const [field, { touched, error }] = useField(props);
-
   return (
     <FormControl isInvalid={touched && !!error}>
       <FormLabel id={`${props.name}-label`} htmlFor={`${props.name}-input`}>
         {label}
       </FormLabel>
       {textarea ? (
-        <Textarea id={`${props.name}-input`} {...field} type={type} />
+        <Textarea
+          id={`${props.name}-input`}
+          {...field}
+          type={type}
+          placeholder={placeholder}
+        />
       ) : (
         <Input
           id={`${props.name}-input`}
