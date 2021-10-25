@@ -1,7 +1,8 @@
 import { Flex, Button, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
-import { useMeQuery } from "../generated/graphql";
+import { useDeletePostMutation, useMeQuery } from "../generated/graphql";
 import { BiComment, BiEditAlt, BiTrash } from "react-icons/bi";
+import { useRouter } from "next/router";
 
 interface PostActionBarProps {
   postId: number;
@@ -10,10 +11,13 @@ interface PostActionBarProps {
 }
 
 export const PostActionBar: React.FC<PostActionBarProps> = ({
+  postId,
   authorId,
   comments,
 }) => {
   const [{ data }] = useMeQuery();
+  const [_, deletePost] = useDeletePostMutation();
+  const router = useRouter();
   const textColor = useColorModeValue("gray.500", "gray.400");
 
   const buttonStyle = {
@@ -24,7 +28,11 @@ export const PostActionBar: React.FC<PostActionBarProps> = ({
   };
 
   return (
-    <Flex>
+    <Flex
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
       <Button leftIcon={<BiComment />} {...buttonStyle}>
         {comments} Comments
       </Button>
@@ -33,7 +41,14 @@ export const PostActionBar: React.FC<PostActionBarProps> = ({
           <Button leftIcon={<BiEditAlt />} {...buttonStyle}>
             Edit
           </Button>
-          <Button leftIcon={<BiTrash />} {...buttonStyle}>
+          <Button
+            leftIcon={<BiTrash />}
+            {...buttonStyle}
+            onClick={async () => {
+              await deletePost({ deletePostId: postId });
+              router.replace("/");
+            }}
+          >
             Delete
           </Button>
         </>
