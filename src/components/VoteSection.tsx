@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/layout";
-import { IconButton, useColorModeValue, Text } from "@chakra-ui/react";
+import { IconButton, Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import {
   TiArrowDownOutline,
@@ -7,10 +7,12 @@ import {
   TiArrowUpOutline,
   TiArrowUpThick,
 } from "react-icons/ti";
-import { PostsQuery, useVoteMutation } from "../generated/graphql";
+import { useVoteMutation } from "../generated/graphql";
 
 interface VoteSectionProps {
-  post: PostsQuery["posts"]["posts"][0];
+  id: number;
+  score: number;
+  voteStatus: number;
 }
 
 enum VoteValue {
@@ -19,7 +21,11 @@ enum VoteValue {
   DownVote = -1,
 }
 
-export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
+export const VoteSection: React.FC<VoteSectionProps> = ({
+  id,
+  score,
+  voteStatus,
+}) => {
   const [_, vote] = useVoteMutation();
 
   const voteGray = useColorModeValue("gray.300", "gray.600");
@@ -29,7 +35,7 @@ export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
       <IconButton
         aria-label="upvote post"
         icon={
-          post.voteStatus === VoteValue.UpVote ? (
+          voteStatus === VoteValue.UpVote ? (
             <TiArrowUpThick />
           ) : (
             <TiArrowUpOutline />
@@ -38,20 +44,20 @@ export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
         size="xs"
         fontSize="2xl"
         variant="ghost"
-        color={post.voteStatus === VoteValue.UpVote ? "red.500" : voteGray}
+        color={voteStatus === VoteValue.UpVote ? "red.500" : voteGray}
         onClick={() => {
           const value =
-            post.voteStatus === VoteValue.UpVote
+            voteStatus === VoteValue.UpVote
               ? VoteValue.UnVote
               : VoteValue.UpVote;
-          vote({ postId: post.id, value: value });
+          vote({ postId: id, value: value });
         }}
       />
-      <Text fontSize="sm">{post.score}</Text>
+      <Text fontSize="sm">{score}</Text>
       <IconButton
         aria-label="downvote post"
         icon={
-          post.voteStatus === VoteValue.DownVote ? (
+          voteStatus === VoteValue.DownVote ? (
             <TiArrowDownThick />
           ) : (
             <TiArrowDownOutline />
@@ -60,13 +66,13 @@ export const VoteSection: React.FC<VoteSectionProps> = ({ post }) => {
         size="xs"
         fontSize="2xl"
         variant="ghost"
-        color={post.voteStatus === VoteValue.DownVote ? "blue.500" : voteGray}
+        color={voteStatus === VoteValue.DownVote ? "blue.500" : voteGray}
         onClick={() => {
           const value =
-            post.voteStatus === VoteValue.DownVote
+            voteStatus === VoteValue.DownVote
               ? VoteValue.UnVote
               : VoteValue.DownVote;
-          vote({ postId: post.id, value: value });
+          vote({ postId: id, value: value });
         }}
       />
     </Flex>

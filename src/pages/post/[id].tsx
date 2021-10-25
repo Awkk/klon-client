@@ -1,10 +1,9 @@
-import { Box, Flex, Text } from "@chakra-ui/layout";
-import { Spinner, useColorModeValue } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/layout";
+import { Spinner } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import React from "react";
-import { PostedBy } from "../../components/PostedBy";
-import { VoteSection } from "../../components/VoteSection";
+import { PostItem } from "../../components/PostItem";
 import { urqlClientConfig } from "../../config/urqlClientConfig";
 import { usePostQuery } from "../../generated/graphql";
 
@@ -18,8 +17,6 @@ const Post: React.FC<PostProps> = ({}) => {
     variables: { postId: postId },
     pause: postId === -1,
   });
-  const bgColor = useColorModeValue("gray.50", "gray.800");
-  const borderColor = useColorModeValue("gray.300", "gray.600");
 
   const post = data?.post;
 
@@ -30,28 +27,9 @@ const Post: React.FC<PostProps> = ({}) => {
     return <Box>Error</Box>;
   }
   return (
-    <Flex
-      w="100%"
-      maxW="8xl"
-      p="2"
-      bgColor={bgColor}
-      borderWidth="0.5px"
-      borderColor={borderColor}
-      borderRadius="md"
-    >
-      <Box alignItems="flex-start">
-        <VoteSection post={post} />
-      </Box>
-      <Flex direction="column" ml="5">
-        <PostedBy author={post.author} createdDate={post.createdDate} />
-        <Text fontSize="lg" fontWeight="medium">
-          {post.title}
-        </Text>
-        <Box mt="5">
-          <Text fontSize="md">{post.text}</Text>
-        </Box>
-      </Flex>
-    </Flex>
+    <Box w="100%" maxW="8xl">
+      <PostItem post={post} />
+    </Box>
   );
 };
 
