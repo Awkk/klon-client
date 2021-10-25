@@ -45,7 +45,7 @@ export const PostActionBar: React.FC<PostActionBarProps> = ({
             leftIcon={<BiTrash />}
             {...buttonStyle}
             onClick={async () => {
-              await deletePost({ deletePostId: postId });
+              await deletePost({ id: postId });
               router.replace("/");
             }}
           >

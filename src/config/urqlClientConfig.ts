@@ -11,6 +11,8 @@ import { Cache, cacheExchange } from "@urql/exchange-graphcache";
 import { NextUrqlClientConfig, SSRExchange } from "next-urql";
 import Router from "next/router";
 import {
+  DeletePostMutation,
+  DeletePostMutationVariables,
   LoginMutation,
   MeDocument,
   MeQuery,
@@ -117,6 +119,19 @@ export const urqlClientConfig: NextUrqlClientConfig = (
           },
           createPost(_result, _args, cache, _info) {
             invalidAllPosts(cache);
+          },
+          deletePost(
+            result: DeletePostMutation,
+            args: DeletePostMutationVariables,
+            cache,
+            _info
+          ) {
+            if (result.deletePost) {
+              cache.invalidate({
+                __typename: "Post",
+                id: args.id,
+              });
+            }
           },
         },
       },
