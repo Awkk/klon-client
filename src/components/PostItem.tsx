@@ -1,15 +1,8 @@
-import {
-  Box,
-  Flex,
-  Link,
-  Text,
-  Tooltip,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
-import { format } from "timeago.js";
 import { PostsQuery } from "../generated/graphql";
+import { PostedBy } from "./PostedBy";
 import { VoteSection } from "./VoteSection";
 
 type PostItemProps = {
@@ -20,7 +13,6 @@ export const PostItem = ({ post }: PostItemProps) => {
   const bgColor = useColorModeValue("gray.50", "gray.800");
   const borderColor = useColorModeValue("gray.300", "gray.600");
   const hoverBorderColor = useColorModeValue("gray.500", "gray.400");
-  const infoTextColor = useColorModeValue("gray.500", "gray.400");
 
   return (
     <NextLink href="/post/[id]" as={`/post/${post.id}`}>
@@ -42,18 +34,7 @@ export const PostItem = ({ post }: PostItemProps) => {
           <VoteSection post={post} />
         </Box>
         <Flex direction={"column"} ml={5}>
-          <Flex fontSize="xs" color={infoTextColor} whiteSpace="pre-wrap">
-            <Text>Posted by </Text>
-            <NextLink href="/u/[id]" as={`/u/${post.author.id}`}>
-              <Link>{post.author.username}</Link>
-            </NextLink>
-            <Text> </Text>
-            <Tooltip label={new Date(post.createdDate).toLocaleString()}>
-              <Box _hover={{ textDecoration: "underline" }}>
-                {format(post.createdDate)}
-              </Box>
-            </Tooltip>
-          </Flex>
+          <PostedBy author={post.author} createdDate={post.createdDate} />
           <Text fontSize="md" fontWeight="medium">
             {post.title}
           </Text>
