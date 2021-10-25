@@ -11,14 +11,14 @@ export const CreatePostWidget: React.FC<CreatePostWidgetProps> = ({}) => {
   const textareaBgColor = useColorModeValue("gray.100", "gray.900");
 
   return (
-    <NextLink href="/post/create">
-      <Flex
-        p="3"
-        bgColor={bgColor}
-        borderWidth="0.5px"
-        borderColor={borderColor}
-        borderRadius="md"
-      >
+    <Flex
+      p="3"
+      bgColor={bgColor}
+      borderWidth="0.5px"
+      borderColor={borderColor}
+      borderRadius="md"
+    >
+      <NextLink href="/post/create">
         <Textarea
           minH="unset"
           h="12"
@@ -29,7 +29,7 @@ export const CreatePostWidget: React.FC<CreatePostWidgetProps> = ({}) => {
           bgColor={textareaBgColor}
           _hover={{ borderColor: hoverBorderColor }}
         />
-      </Flex>
-    </NextLink>
+      </NextLink>
+    </Flex>
   );
 };
