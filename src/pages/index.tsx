@@ -5,13 +5,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { CreatePostWidget } from "../components/CreatePostWidget";
 import { PostPage } from "../components/PostPage";
 import { urqlClientConfig } from "../config/urqlClientConfig";
-import { PostsQueryVariables } from "../generated/graphql";
-
-const limit = 20;
+import { postPerPageLimit } from "../constants/post";
+import { PostsQueryVariables, useMeQuery } from "../generated/graphql";
 
 const Home: NextPage = () => {
+  const [{ data }] = useMeQuery();
   const [pageVariables, setPageVariables] = useState<PostsQueryVariables[]>([
-    { limit, cursor: null as null | string },
+    { limit: postPerPageLimit, cursor: null as null | string },
   ]);
   const [nextPageVariable, setNextPageVariable] =
     useState<PostsQueryVariables | null>(null);
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
 
   return (
     <Stack maxW="8xl" w="100%" spacing="4" py="2" ref={pageListRef}>
-      <CreatePostWidget />
+      {data?.me ? <CreatePostWidget /> : null}
       <Box>
         {pageVariables.map((variables, i) => {
           return (
@@ -48,7 +48,9 @@ const Home: NextPage = () => {
               key={"" + variables.cursor}
               variables={variables}
               isLastPage={i === pageVariables.length - 1}
-              setNextCursor={(cursor) => setNextPageVariable({ limit, cursor })}
+              setNextCursor={(cursor) =>
+                setNextPageVariable({ limit: postPerPageLimit, cursor })
+              }
             />
           );
         })}
