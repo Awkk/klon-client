@@ -39,7 +39,7 @@ const Home: NextPage = () => {
   }, [nextPageVariable, pageVariables]);
 
   return (
-    <Stack w={["100%", "75%"]} spacing="4" py="2" ref={pageListRef}>
+    <Stack maxW="8xl" w="100%" spacing="4" py="2" ref={pageListRef}>
       <CreatePostWidget />
       <Box>
         {pageVariables.map((variables, i) => {

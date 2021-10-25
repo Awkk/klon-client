@@ -74,7 +74,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
       <Flex
         justifyItems="space-between"
         alignItems="center"
-        maxW="7xl"
+        maxW="8xl"
         mx="auto"
       >
         <Box>
