@@ -115,6 +115,9 @@ export const urqlClientConfig: NextUrqlClientConfig = (
             );
             resetVoteStatus(cache);
           },
+          createPost(_result, _args, cache, _info) {
+            invalidAllPosts(cache);
+          },
         },
       },
     }),

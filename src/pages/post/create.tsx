@@ -30,9 +30,7 @@ const CreatePost: React.FC<{}> = ({}) => {
   const bgColor = useColorModeValue("gray.50", "gray.800");
 
   const submitPost = async (values: FormData, _: FormikHelpers<FormData>) => {
-    console.log(values);
     const result = await createPost({ input: values });
-    console.log(result);
     if (!result.error) {
       const newPostId = result.data?.createPost.id;
       router.push(`/post/${newPostId}`);
