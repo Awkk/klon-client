@@ -140,6 +140,8 @@ export type Vote = {
 
 export type FieldErrorFragmentFragment = { __typename?: 'FieldError', field: string, message: string };
 
+export type PostFragmentFragment = { __typename?: 'Post', id: number, title: string, score: number, views: number, voteStatus: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } };
+
 export type UserFragmentFragment = { __typename?: 'User', id: number, username: string };
 
 export type UserResponseFragmentFragment = { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
@@ -188,7 +190,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: number, title: string, text: string, views: number, score: number, voteStatus: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } } | null | undefined };
+export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', text: string, id: number, title: string, score: number, views: number, voteStatus: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } } | null | undefined };
 
 export type PostsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
@@ -196,8 +198,23 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', id: string, hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, score: number, views: number, voteStatus: number, authorId: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', id: string, hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, score: number, views: number, voteStatus: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }> } };
 
+export const PostFragmentFragmentDoc = gql`
+    fragment PostFragment on Post {
+  id
+  title
+  score
+  views
+  voteStatus
+  author {
+    id
+    username
+  }
+  createdDate
+  updatedDate
+}
+    `;
 export const UserFragmentFragmentDoc = gql`
     fragment UserFragment on User {
   id
@@ -293,21 +310,11 @@ export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'q
 export const PostDocument = gql`
     query Post($postId: Int!) {
   post(id: $postId) {
-    id
-    title
+    ...PostFragment
     text
-    views
-    score
-    voteStatus
-    author {
-      id
-      username
-    }
-    createdDate
-    updatedDate
   }
 }
-    `;
+    ${PostFragmentFragmentDoc}`;
 
 export function usePostQuery(options: Omit<Urql.UseQueryArgs<PostQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PostQuery>({ query: PostDocument, ...options });
@@ -317,23 +324,12 @@ export const PostsDocument = gql`
   posts(limit: $limit, cursor: $cursor) {
     id
     posts {
-      id
-      title
-      score
-      views
-      voteStatus
-      authorId
-      author {
-        id
-        username
-      }
-      createdDate
-      updatedDate
+      ...PostFragment
     }
     hasMore
   }
 }
-    `;
+    ${PostFragmentFragmentDoc}`;
 
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
