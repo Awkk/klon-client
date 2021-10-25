@@ -8,7 +8,7 @@ import { urqlClientConfig } from "../config/urqlClientConfig";
 import { useRegisterMutation } from "../generated/graphql";
 import { errorsToMap } from "../utils/errorsToMap";
 import * as Yup from "yup";
-import { password, username } from "../constants/validation";
+import { authLimit } from "../constants/validation";
 
 interface RegisterProps {}
 
@@ -27,17 +27,23 @@ const initialValues: FormData = {
 const validationSchema = Yup.object({
   username: Yup.string()
     .min(
-      username.minLength,
-      `Must be at least ${username.minLength} characters`
+      authLimit.username.minLength,
+      `Must be at least ${authLimit.username.minLength} characters`
     )
-    .max(username.maxLength, `Must be at most ${username.maxLength} characters`)
+    .max(
+      authLimit.username.maxLength,
+      `Must be at most ${authLimit.username.maxLength} characters`
+    )
     .required("Required"),
   password: Yup.string()
     .min(
-      password.minLength,
-      `Must be at least ${password.minLength} characters`
+      authLimit.password.minLength,
+      `Must be at least ${authLimit.password.minLength} characters`
     )
-    .max(password.maxLength, `Must be at most ${password.maxLength} characters`)
+    .max(
+      authLimit.password.maxLength,
+      `Must be at most ${authLimit.password.maxLength} characters`
+    )
     .required("Required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
@@ -80,6 +86,7 @@ const Register: React.FC<RegisterProps> = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={submitRegister}
+        validateOnBlur={false}
       >
         {({ handleSubmit, isSubmitting }) => (
           <Form onSubmit={handleSubmit}>
