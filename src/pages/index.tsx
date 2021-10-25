@@ -1,8 +1,8 @@
-import { Box, Link } from "@chakra-ui/layout";
+import { Box, Stack } from "@chakra-ui/layout";
 import type { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
-import NextLink from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import { CreatePostWidget } from "../components/CreatePostWidget";
 import { PostPage } from "../components/PostPage";
 import { urqlClientConfig } from "../config/urqlClientConfig";
 import { PostsQueryVariables } from "../generated/graphql";
@@ -39,10 +39,8 @@ const Home: NextPage = () => {
   }, [nextPageVariable, pageVariables]);
 
   return (
-    <Box w={["100%", "75%"]} ref={pageListRef}>
-      <NextLink href="/post/create">
-        <Link>Create Post</Link>
-      </NextLink>
+    <Stack w={["100%", "75%"]} spacing="4" py="2" ref={pageListRef}>
+      <CreatePostWidget />
       <Box>
         {pageVariables.map((variables, i) => {
           return (
@@ -55,7 +53,7 @@ const Home: NextPage = () => {
           );
         })}
       </Box>
-    </Box>
+    </Stack>
   );
 };
 

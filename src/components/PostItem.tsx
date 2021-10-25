@@ -31,8 +31,8 @@ export const PostItem = ({ post }: PostItemProps) => {
         borderColor={borderColor}
         cursor="pointer"
         _hover={{ borderColor: hoverBorderColor }}
-        _first={{ borderTopRadius: "xl" }}
-        _last={{ borderBottomRadius: "xl" }}
+        _first={{ borderTopRadius: "md" }}
+        _last={{ borderBottomRadius: "md" }}
       >
         <Box
           onClick={(e) => {
