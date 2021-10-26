@@ -1,5 +1,4 @@
 import { Box } from "@chakra-ui/layout";
-import { Spinner } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import React from "react";

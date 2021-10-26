@@ -1,10 +1,10 @@
 import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import NextLink from "next/link";
 import React from "react";
 import { Post, User } from "../generated/graphql";
 import { PostActionBar } from "./PostActionBar";
 import { PostedBy } from "./PostedBy";
 import { VoteSection } from "./VoteSection";
-import NextLink from "next/link";
 
 type PostItemProps = {
   post: Omit<Post, "text" | "authorId" | "author"> & {
@@ -57,11 +57,17 @@ export const PostItem = ({ post, clickable }: PostItemProps) => {
             <Text fontSize="md">{post.text}</Text>
           </Box>
         ) : null}
-        <PostActionBar
-          authorId={post.author.id}
-          postId={post.id}
-          comments={0}
-        />
+        <Box
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <PostActionBar
+            authorId={post.author.id}
+            postId={post.id}
+            comments={0}
+          />
+        </Box>
       </Flex>
     </Flex>
   );
