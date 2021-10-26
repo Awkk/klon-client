@@ -1,20 +1,14 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogCloseButton,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Button,
   Flex,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useRef } from "react";
+import React from "react";
 import { BiComment, BiEditAlt, BiTrash } from "react-icons/bi";
 import { useDeletePostMutation, useMeQuery } from "../generated/graphql";
+import { Dialog } from "./Dialog";
 
 interface PostActionBarProps {
   postId: number;
@@ -32,7 +26,6 @@ export const PostActionBar: React.FC<PostActionBarProps> = ({
   const router = useRouter();
   const textColor = useColorModeValue("gray.500", "gray.400");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef(null);
 
   const buttonStyle = {
     variant: "ghost",
@@ -54,38 +47,17 @@ export const PostActionBar: React.FC<PostActionBarProps> = ({
           <Button leftIcon={<BiTrash />} onClick={onOpen} {...buttonStyle}>
             Delete
           </Button>
-          <AlertDialog
-            motionPreset="slideInBottom"
-            leastDestructiveRef={cancelRef}
-            onClose={onClose}
+          <Dialog
+            header="Delete post?"
+            body="Are you sure you want to delete your post?"
+            confirmText="Delete post"
             isOpen={isOpen}
-            isCentered
-          >
-            <AlertDialogOverlay />
-
-            <AlertDialogContent>
-              <AlertDialogHeader>Delete post?</AlertDialogHeader>
-              <AlertDialogCloseButton />
-              <AlertDialogBody>
-                Are you sure you want to delete your post?
-              </AlertDialogBody>
-              <AlertDialogFooter>
-                <Button ref={cancelRef} onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  colorScheme="red"
-                  ml={3}
-                  onClick={async () => {
-                    await deletePost({ id: postId });
-                    router.replace("/");
-                  }}
-                >
-                  Delete post
-                </Button>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+            onClose={onClose}
+            onClick={async () => {
+              await deletePost({ id: postId });
+              router.replace("/");
+            }}
+          />
         </>
       ) : null}
     </Flex>
