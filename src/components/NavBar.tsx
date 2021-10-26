@@ -6,6 +6,7 @@ import { Button, IconButton } from "@chakra-ui/button";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import { useColorMode, useColorModeValue } from "@chakra-ui/color-mode";
 import { Spinner } from "@chakra-ui/react";
+import router from "next/router";
 
 interface NavBarProps {}
 
@@ -35,6 +36,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
           isLoading={logoutFetching}
           onClick={async () => {
             await logout();
+            router.push("/");
           }}
         >
           Log Out
