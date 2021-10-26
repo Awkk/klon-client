@@ -4,9 +4,9 @@ import {
   FormLabel,
 } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import { Textarea } from "@chakra-ui/textarea";
 import { FieldHookConfig, useField } from "formik";
 import React from "react";
+import { AutoResizeTextarea } from "./AutoResizeTextarea";
 
 type InputFieldProps = FieldHookConfig<string> & {
   label?: string;
@@ -31,10 +31,9 @@ export const InputField: React.FC<InputFieldProps> = ({
         </FormLabel>
       ) : null}
       {textarea ? (
-        <Textarea
+        <AutoResizeTextarea
           id={`${props.name}-input`}
           {...field}
-          type={type}
           placeholder={placeholder}
         />
       ) : (

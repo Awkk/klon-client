@@ -43,7 +43,7 @@ export const PostItem = ({ post, clickable }: PostItemProps) => {
   const displayContent = (
     <>
       <Box my="1">
-        <Text fontSize="md" fontWeight="medium">
+        <Text fontSize={clickable ? "md" : "lg"} fontWeight="medium">
           {post.title}
         </Text>
       </Box>
@@ -135,9 +135,9 @@ export const PostItem = ({ post, clickable }: PostItemProps) => {
           voteStatus={post.voteStatus}
         />
       </Box>
-      <Flex direction={"column"} ml={5} w="100%" maxW="lg">
+      <Flex direction={"column"} ml={5} w="100%">
         <PostedBy author={post.author} createdDate={post.createdDate} />
-        <Box wordBreak="break-word">
+        <Box wordBreak="break-word" whiteSpace="pre-wrap">
           {isEditing ? editContent : displayContent}
         </Box>
         <Box
