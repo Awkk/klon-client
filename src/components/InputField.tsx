@@ -9,7 +9,7 @@ import { FieldHookConfig, useField } from "formik";
 import React from "react";
 
 type InputFieldProps = FieldHookConfig<string> & {
-  label: string;
+  label?: string;
   helperText?: string;
   textarea?: boolean;
 };
@@ -25,9 +25,11 @@ export const InputField: React.FC<InputFieldProps> = ({
   const [field, { touched, error }] = useField(props);
   return (
     <FormControl isInvalid={touched && !!error}>
-      <FormLabel id={`${props.name}-label`} htmlFor={`${props.name}-input`}>
-        {label}
-      </FormLabel>
+      {label ? (
+        <FormLabel id={`${props.name}-label`} htmlFor={`${props.name}-input`}>
+          {label}
+        </FormLabel>
+      ) : null}
       {textarea ? (
         <Textarea
           id={`${props.name}-input`}

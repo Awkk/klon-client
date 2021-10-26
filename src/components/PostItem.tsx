@@ -1,7 +1,18 @@
-import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Stack,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { Form, Formik } from "formik";
 import NextLink from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import { Post, User } from "../generated/graphql";
+import { createPostValidation } from "../utils/validationSchemas";
+import { InputField } from "./InputField";
 import { PostActionBar } from "./PostActionBar";
 import { PostedBy } from "./PostedBy";
 import { VoteSection } from "./VoteSection";
@@ -14,10 +25,80 @@ type PostItemProps = {
   clickable?: boolean;
 };
 
+interface UpdatePostFormData {
+  title: string;
+  text: string;
+}
+
 export const PostItem = ({ post, clickable }: PostItemProps) => {
+  const router = useRouter();
+  const editParam = router.query.editing === "true";
+  const [isEditing, setIsEditing] = useState<boolean>(editParam);
+
   const bgColor = useColorModeValue("gray.50", "gray.800");
   const borderColor = useColorModeValue("gray.300", "gray.600");
   const hoverBorderColor = useColorModeValue("gray.500", "gray.400");
+
+  const displayContent = (
+    <>
+      <Box my="1">
+        <Text fontSize="md" fontWeight="medium">
+          {post.title}
+        </Text>
+      </Box>
+      {post.text ? (
+        <Box my="4">
+          <Text fontSize="md">{post.text}</Text>
+        </Box>
+      ) : null}
+    </>
+  );
+
+  const initialValues: UpdatePostFormData = {
+    title: post.title,
+    text: post.text ? post.text : "",
+  };
+
+  const editContent = (
+    <Box my="3">
+      <Formik
+        initialValues={initialValues}
+        validationSchema={createPostValidation}
+        onSubmit={() => {}}
+        validateOnBlur={false}
+      >
+        {({ handleSubmit, isSubmitting }) => (
+          <Form onSubmit={handleSubmit}>
+            <Stack spacing="4">
+              <InputField name="title" placeholder="Title" />
+              <InputField name="text" placeholder="Text" textarea />
+              <Flex justifyContent="flex-end">
+                <Button
+                  variant="ghost"
+                  colorScheme="teal"
+                  size="sm"
+                  onClick={() => {
+                    setIsEditing(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  isLoading={isSubmitting}
+                  variant="solid"
+                  colorScheme="teal"
+                  size="sm"
+                >
+                  Save
+                </Button>
+              </Flex>
+            </Stack>
+          </Form>
+        )}
+      </Formik>
+    </Box>
+  );
 
   const body = (
     <Flex
@@ -45,18 +126,9 @@ export const PostItem = ({ post, clickable }: PostItemProps) => {
           voteStatus={post.voteStatus}
         />
       </Box>
-      <Flex direction={"column"} ml={5}>
+      <Flex direction={"column"} ml={5} w="100%" maxW="lg">
         <PostedBy author={post.author} createdDate={post.createdDate} />
-        <Box my="1">
-          <Text fontSize="md" fontWeight="medium">
-            {post.title}
-          </Text>
-        </Box>
-        {post.text ? (
-          <Box my="4">
-            <Text fontSize="md">{post.text}</Text>
-          </Box>
-        ) : null}
+        {isEditing ? editContent : displayContent}
         <Box
           onClick={(e) => {
             e.stopPropagation();
@@ -66,6 +138,7 @@ export const PostItem = ({ post, clickable }: PostItemProps) => {
             authorId={post.author.id}
             postId={post.id}
             comments={0}
+            setIsEditing={setIsEditing}
           />
         </Box>
       </Flex>

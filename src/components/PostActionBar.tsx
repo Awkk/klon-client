@@ -14,12 +14,14 @@ interface PostActionBarProps {
   postId: number;
   authorId: number;
   comments: number;
+  setIsEditing: (flag: boolean) => void;
 }
 
 export const PostActionBar: React.FC<PostActionBarProps> = ({
   postId,
   authorId,
   comments,
+  setIsEditing,
 }) => {
   const [{ data }] = useMeQuery();
   const [_, deletePost] = useDeletePostMutation();
@@ -41,7 +43,18 @@ export const PostActionBar: React.FC<PostActionBarProps> = ({
       </Button>
       {authorId === data?.me?.id ? (
         <>
-          <Button leftIcon={<BiEditAlt />} {...buttonStyle}>
+          <Button
+            leftIcon={<BiEditAlt />}
+            onClick={() => {
+              const postPath = `/post/${postId}`;
+              if (!router.asPath.startsWith(postPath)) {
+                router.push(`${postPath}?editing=true`);
+              } else {
+                setIsEditing(true);
+              }
+            }}
+            {...buttonStyle}
+          >
             Edit
           </Button>
           <Button leftIcon={<BiTrash />} onClick={onOpen} {...buttonStyle}>

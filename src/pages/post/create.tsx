@@ -5,19 +5,18 @@ import { Form, Formik, FormikHelpers } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import React from "react";
-import * as Yup from "yup";
 import { InputField } from "../../components/InputField";
 import { urqlClientConfig } from "../../config/urqlClientConfig";
-import { createPostLimit } from "../../constants/validation";
 import { useCreatePostMutation } from "../../generated/graphql";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
+import { createPostValidation } from "../../utils/validationSchemas";
 
-interface FormData {
+interface CreatePostFormData {
   title: string;
   text: string;
 }
 
-const initialValues: FormData = {
+const initialValues: CreatePostFormData = {
   title: "",
   text: "",
 };
@@ -29,28 +28,16 @@ const CreatePost: React.FC<{}> = ({}) => {
   const dividerColor = useColorModeValue("gray.800", "gray.600");
   const bgColor = useColorModeValue("gray.50", "gray.800");
 
-  const submitPost = async (values: FormData, _: FormikHelpers<FormData>) => {
+  const submitPost = async (
+    values: CreatePostFormData,
+    _: FormikHelpers<CreatePostFormData>
+  ) => {
     const result = await createPost({ input: values });
     if (!result.error) {
       const newPostId = result.data?.createPost.id;
       router.push(`/post/${newPostId}`);
     }
   };
-
-  const validationSchema = Yup.object({
-    title: Yup.string()
-      .max(
-        createPostLimit.title.maxLength,
-        `Must be at most ${createPostLimit.title.maxLength} characters`
-      )
-      .required("Required"),
-    text: Yup.string()
-      .max(
-        createPostLimit.text.maxLength,
-        `Must be at most ${createPostLimit.text.maxLength} characters`
-      )
-      .required("Required"),
-  });
 
   return (
     <Stack
@@ -69,7 +56,7 @@ const CreatePost: React.FC<{}> = ({}) => {
       <Divider bgColor={dividerColor} />
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={createPostValidation}
         onSubmit={submitPost}
         validateOnBlur={false}
       >
