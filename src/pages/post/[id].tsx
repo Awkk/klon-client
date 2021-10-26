@@ -4,6 +4,7 @@ import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import React from "react";
 import { PostItem } from "../../components/PostItem";
+import { PostSkeleton } from "../../components/PostSkeleton";
 import { urqlClientConfig } from "../../config/urqlClientConfig";
 import { usePostQuery } from "../../generated/graphql";
 
@@ -21,7 +22,7 @@ const Post: React.FC<PostProps> = ({}) => {
   const post = data?.post;
 
   if (fetching) {
-    return <Spinner />;
+    return <PostSkeleton />;
   }
   if (!post) {
     return <Box>Error</Box>;

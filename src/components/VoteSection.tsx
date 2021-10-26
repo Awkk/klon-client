@@ -13,6 +13,7 @@ interface VoteSectionProps {
   id: number;
   score: number;
   voteStatus: number;
+  locked?: boolean;
 }
 
 enum VoteValue {
@@ -25,6 +26,7 @@ export const VoteSection: React.FC<VoteSectionProps> = ({
   id,
   score,
   voteStatus,
+  locked,
 }) => {
   const [_, vote] = useVoteMutation();
 
@@ -52,8 +54,9 @@ export const VoteSection: React.FC<VoteSectionProps> = ({
               : VoteValue.UpVote;
           vote({ postId: id, value: value });
         }}
+        isDisabled={locked}
       />
-      <Text fontSize="sm">{score}</Text>
+      {locked ? <span>&nbsp;</span> : <Text fontSize="sm">{score}</Text>}
       <IconButton
         aria-label="downvote post"
         icon={
@@ -74,6 +77,7 @@ export const VoteSection: React.FC<VoteSectionProps> = ({
               : VoteValue.DownVote;
           vote({ postId: id, value: value });
         }}
+        isDisabled={locked}
       />
     </Flex>
   );

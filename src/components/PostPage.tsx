@@ -1,8 +1,8 @@
-import { Box, Skeleton, Stack, useColorModeValue } from "@chakra-ui/react";
-
+import { Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { PostsQueryVariables, usePostsQuery } from "../generated/graphql";
 import { PostItem } from "./PostItem";
+import { PostSkeleton } from "./PostSkeleton";
 
 type PostPageProps = {
   variables: PostsQueryVariables;
@@ -27,11 +27,10 @@ export const PostPage = ({
   return (
     <>
       {fetching ? (
-        <Stack>
-          <Skeleton h="16" />
-          <Skeleton h="16" />
-          <Skeleton h="16" />
-        </Stack>
+        <Box>
+          <PostSkeleton />
+          <PostSkeleton />
+        </Box>
       ) : (
         data?.posts.posts.map((post) => (
           <PostItem key={post.id} post={post} clickable />
