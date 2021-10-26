@@ -29,8 +29,8 @@ export const Dialog: React.FC<DialogProps> = ({
   onClick,
   header,
   body,
-  cancelText = "cancel",
-  confirmText = "confirm",
+  cancelText = "Cancel",
+  confirmText = "Confirm",
   cancelButtonProps = { variant: "outline" },
   confirmButtonProps = { colorScheme: "red", ml: "3" },
 }) => {
