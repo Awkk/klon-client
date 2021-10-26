@@ -10,7 +10,7 @@ import { Form, Formik } from "formik";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { Post, User } from "../generated/graphql";
+import { Post, User, useUpdatePostMutation } from "../generated/graphql";
 import { createPostValidation } from "../utils/validationSchemas";
 import { InputField } from "./InputField";
 import { PostActionBar } from "./PostActionBar";
@@ -34,6 +34,7 @@ export const PostItem = ({ post, clickable }: PostItemProps) => {
   const router = useRouter();
   const editParam = router.query.editing === "true";
   const [isEditing, setIsEditing] = useState<boolean>(editParam);
+  const [, updatePost] = useUpdatePostMutation();
 
   const bgColor = useColorModeValue("gray.50", "gray.800");
   const borderColor = useColorModeValue("gray.300", "gray.600");
@@ -64,7 +65,15 @@ export const PostItem = ({ post, clickable }: PostItemProps) => {
       <Formik
         initialValues={initialValues}
         validationSchema={createPostValidation}
-        onSubmit={() => {}}
+        onSubmit={async (values) => {
+          const result = await updatePost({
+            id: post.id,
+            input: { title: values.title, text: values.text },
+          });
+          if (!result.error) {
+            setIsEditing(false);
+          }
+        }}
         validateOnBlur={false}
       >
         {({ handleSubmit, isSubmitting }) => (
