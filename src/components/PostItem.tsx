@@ -137,7 +137,9 @@ export const PostItem = ({ post, clickable }: PostItemProps) => {
       </Box>
       <Flex direction={"column"} ml={5} w="100%" maxW="lg">
         <PostedBy author={post.author} createdDate={post.createdDate} />
-        {isEditing ? editContent : displayContent}
+        <Box wordBreak="break-word">
+          {isEditing ? editContent : displayContent}
+        </Box>
         <Box
           onClick={(e) => {
             e.stopPropagation();
