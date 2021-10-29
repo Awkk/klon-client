@@ -1,4 +1,4 @@
-import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, useColorModeValue, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -24,6 +24,7 @@ export const PostItem = ({ post, listMode }: PostItemProps) => {
   const bgColor = useColorModeValue("gray.50", "gray.800");
   const borderColor = useColorModeValue("gray.300", "gray.600");
   const hoverBorderColor = useColorModeValue("gray.500", "gray.400");
+  const infoTextColor = useColorModeValue("gray.500", "gray.400");
 
   const body = (
     <Flex
@@ -60,7 +61,10 @@ export const PostItem = ({ post, listMode }: PostItemProps) => {
             <PostContent post={post} listMode={listMode} />
           )}
         </Box>
-        <Box
+        <Flex
+          direction={['column', 'row']}
+          pr="2"
+          justifyContent="space-between"
           onClick={(e) => {
             e.stopPropagation();
           }}
@@ -71,7 +75,12 @@ export const PostItem = ({ post, listMode }: PostItemProps) => {
             comments={0}
             setIsEditing={setIsEditing}
           />
-        </Box>
+          {!listMode ? (
+            <Text fontSize="xs" color={infoTextColor}>
+              {post.views === 1 ? "view" : "views"}: {post.views}
+            </Text>
+          ) : null}
+        </Flex>
       </Flex>
     </Flex>
   );
