@@ -33,7 +33,7 @@ export const PostPage = ({
         </Box>
       ) : (
         data?.posts.posts.map((post) => (
-          <PostItem key={post.id} post={post} clickable />
+          <PostItem key={post.id} post={post} listMode />
         ))
       )}
     </>
