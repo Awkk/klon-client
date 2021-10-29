@@ -45,11 +45,9 @@ const resetVoteStatus = (cache: Cache) => {
     .inspectFields("Query")
     .filter((field) => field.fieldName === "posts")
     .forEach((field) => {
-      console.log("field", field);
       cache.updateQuery(
         { query: PostsDocument, variables: field.arguments ?? undefined },
         (data: PostsQuery | null) => {
-          console.log("data", data);
           if (data) {
             data.posts.posts.forEach((post) => {
               post.voteStatus = 0;
