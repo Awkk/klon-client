@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
-import { format } from "timeago.js";
+import { timeAgo } from "../utils/dateFormat";
 
 type Author = {
   id: number;
@@ -18,21 +18,24 @@ type Author = {
 type PostedByProps = {
   author: Author;
   createdDate: string;
+  short?: boolean;
 };
 
-export const PostedBy = ({ author, createdDate }: PostedByProps) => {
+export const PostedBy = ({ author, createdDate, short }: PostedByProps) => {
   const infoTextColor = useColorModeValue("gray.500", "gray.400");
-
+  const createdDateObj = new Date(createdDate);
   return (
     <Flex fontSize="xs" color={infoTextColor} whiteSpace="pre-wrap">
-      <Text>Posted by </Text>
+      {!short ? <Text>Posted by </Text> : null}
       <NextLink href="/user/[id]" as={`/user/${author.id}`}>
         <Link>{author.username}</Link>
       </NextLink>
-      <Text> </Text>
-      <Tooltip label={new Date(createdDate).toLocaleString()}>
+      <Text>{" • "}</Text>
+      <Tooltip label={createdDateObj.toLocaleString()}>
         <Box _hover={{ textDecoration: "underline" }}>
-          {format(createdDate)}
+          {short
+            ? timeAgo.format(createdDateObj, "mini-now")
+            : timeAgo.format(createdDateObj)}
         </Box>
       </Tooltip>
     </Flex>

@@ -18,6 +18,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "graphql": "^15.6.1",
+    "javascript-time-ago": "^2.3.10",
     "next": "11.1.2",
     "next-urql": "^3.2.1",
     "react": "17.0.2",
@@ -25,7 +26,6 @@
     "react-icons": "^4.3.1",
     "react-is": "^17.0.2",
     "react-textarea-autosize": "^8.3.3",
-    "timeago.js": "^4.0.2",
     "urql": "^2.0.5",
     "yup": "^0.32.11"
   },

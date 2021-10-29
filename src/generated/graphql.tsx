@@ -172,6 +172,8 @@ export type Vote = {
   value: Scalars['Int'];
 };
 
+export type CommentFragmentFragment = { __typename?: 'Comment', id: number, text: string, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } };
+
 export type FieldErrorFragmentFragment = { __typename?: 'FieldError', field: string, message: string };
 
 export type PostFragmentFragment = { __typename?: 'Post', id: number, title: string, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } };
@@ -239,7 +241,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', text: string, id: number, title: string, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } } | null | undefined };
+export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', text: string, id: number, title: string, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, comments: Array<{ __typename?: 'Comment', id: number, text: string, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }>, author: { __typename?: 'User', id: number, username: string } } | null | undefined };
 
 export type PostsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
@@ -249,6 +251,18 @@ export type PostsQueryVariables = Exact<{
 
 export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', id: string, hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }> } };
 
+export const CommentFragmentFragmentDoc = gql`
+    fragment CommentFragment on Comment {
+  id
+  text
+  author {
+    id
+    username
+  }
+  createdDate
+  updatedDate
+}
+    `;
 export const PostFragmentFragmentDoc = gql`
     fragment PostFragment on Post {
   id
@@ -387,9 +401,13 @@ export const PostDocument = gql`
   post(id: $postId) {
     ...PostFragment
     text
+    comments {
+      ...CommentFragment
+    }
   }
 }
-    ${PostFragmentFragmentDoc}`;
+    ${PostFragmentFragmentDoc}
+${CommentFragmentFragmentDoc}`;
 
 export function usePostQuery(options: Omit<Urql.UseQueryArgs<PostQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PostQuery>({ query: PostDocument, ...options });
