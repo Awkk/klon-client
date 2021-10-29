@@ -16,6 +16,17 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type Comment = {
+  __typename?: 'Comment';
+  author: User;
+  authorId: Scalars['Int'];
+  createdDate: Scalars['DateTime'];
+  id: Scalars['Int'];
+  postId: Scalars['Int'];
+  text: Scalars['String'];
+  updatedDate: Scalars['DateTime'];
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -24,18 +35,32 @@ export type FieldError = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createComment: Comment;
   createPost: Post;
+  deleteComment: Scalars['Boolean'];
   deletePost: Scalars['Boolean'];
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
+  updateComment?: Maybe<Comment>;
   updatePost?: Maybe<Post>;
   vote: Scalars['Boolean'];
 };
 
 
+export type MutationCreateCommentArgs = {
+  postId: Scalars['Float'];
+  text: Scalars['String'];
+};
+
+
 export type MutationCreatePostArgs = {
   input: PostInput;
+};
+
+
+export type MutationDeleteCommentArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -51,6 +76,12 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   auth: UserAuthInput;
+};
+
+
+export type MutationUpdateCommentArgs = {
+  id: Scalars['Int'];
+  text: Scalars['String'];
 };
 
 
@@ -76,6 +107,8 @@ export type Post = {
   __typename?: 'Post';
   author: User;
   authorId: Scalars['Int'];
+  comments: Array<Comment>;
+  commentsCount: Scalars['Int'];
   createdDate: Scalars['DateTime'];
   id: Scalars['Int'];
   score: Scalars['Int'];
@@ -111,6 +144,7 @@ export type QueryPostsArgs = {
 
 export type User = {
   __typename?: 'User';
+  comments: Array<Comment>;
   createdDate: Scalars['DateTime'];
   id: Scalars['Int'];
   updatedDate: Scalars['DateTime'];
@@ -140,7 +174,7 @@ export type Vote = {
 
 export type FieldErrorFragmentFragment = { __typename?: 'FieldError', field: string, message: string };
 
-export type PostFragmentFragment = { __typename?: 'Post', id: number, title: string, score: number, views: number, voteStatus: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } };
+export type PostFragmentFragment = { __typename?: 'Post', id: number, title: string, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } };
 
 export type UserFragmentFragment = { __typename?: 'User', id: number, username: string };
 
@@ -205,7 +239,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', text: string, id: number, title: string, score: number, views: number, voteStatus: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } } | null | undefined };
+export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', text: string, id: number, title: string, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } } | null | undefined };
 
 export type PostsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
@@ -213,7 +247,7 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', id: string, hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, score: number, views: number, voteStatus: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', id: string, hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }> } };
 
 export const PostFragmentFragmentDoc = gql`
     fragment PostFragment on Post {
@@ -222,6 +256,7 @@ export const PostFragmentFragmentDoc = gql`
   score
   views
   voteStatus
+  commentsCount
   author {
     id
     username

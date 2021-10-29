@@ -69,7 +69,7 @@ export const PostItem = ({ post, listMode }: PostItemProps) => {
           <PostActionBar
             authorId={post.author.id}
             postId={post.id}
-            comments={0}
+            comments={post.commentsCount}
             setIsEditing={setIsEditing}
           />
           {!listMode ? (

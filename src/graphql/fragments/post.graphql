@@ -4,6 +4,7 @@ fragment PostFragment on Post {
   score
   views
   voteStatus
+  commentsCount
   author {
     id
     username
