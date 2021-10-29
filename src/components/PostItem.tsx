@@ -62,12 +62,9 @@ export const PostItem = ({ post, listMode }: PostItemProps) => {
           )}
         </Box>
         <Flex
-          direction={['column', 'row']}
+          direction={["column", "row"]}
           pr="2"
           justifyContent="space-between"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
         >
           <PostActionBar
             authorId={post.author.id}

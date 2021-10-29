@@ -45,7 +45,8 @@ export const PostActionBar: React.FC<PostActionBarProps> = ({
         <>
           <Button
             leftIcon={<BiEditAlt />}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               const postPath = `/post/${postId}`;
               if (!router.asPath.startsWith(postPath)) {
                 router.push(`${postPath}?editing=true`);
@@ -57,7 +58,14 @@ export const PostActionBar: React.FC<PostActionBarProps> = ({
           >
             Edit
           </Button>
-          <Button leftIcon={<BiTrash />} onClick={onOpen} {...buttonStyle}>
+          <Button
+            leftIcon={<BiTrash />}
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpen();
+            }}
+            {...buttonStyle}
+          >
             Delete
           </Button>
           <Dialog
