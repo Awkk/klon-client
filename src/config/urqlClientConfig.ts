@@ -152,7 +152,10 @@ export const urqlClientConfig: NextUrqlClientConfig = (
             cache.updateQuery<PostQuery, PostQueryVariables>(
               { query: PostDocument, variables: { postId: args.postId } },
               (data) => {
-                data?.post?.comments.push(result.createComment);
+                if (data?.post) {
+                  data.post.comments.push(result.createComment);
+                  data.post.commentsCount++;
+                }
                 return data;
               }
             );
