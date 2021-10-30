@@ -18,6 +18,7 @@ import {
   LoginMutation,
   MeDocument,
   MeQuery,
+  MeQueryVariables,
   PostDocument,
   PostQuery,
   PostQueryVariables,
@@ -96,27 +97,33 @@ export const urqlClientConfig: NextUrqlClientConfig = (
             }
           },
           register(result: RegisterMutation, _args, cache, _info) {
-            cache.updateQuery({ query: MeDocument }, (data: MeQuery | null) => {
-              if (!result.register.errors) {
-                return { me: result.register.user };
+            cache.updateQuery<MeQuery, MeQueryVariables>(
+              { query: MeDocument },
+              (data) => {
+                if (!result.register.errors) {
+                  return { me: result.register.user };
+                }
+                return data;
               }
-              return data;
-            });
+            );
             resetVoteStatus(cache);
           },
           login(result: LoginMutation, _args, cache, _info) {
-            cache.updateQuery({ query: MeDocument }, (data: MeQuery | null) => {
-              if (!result.login.errors) {
-                return { me: result.login.user };
+            cache.updateQuery<MeQuery, MeQueryVariables>(
+              { query: MeDocument },
+              (data) => {
+                if (!result.login.errors) {
+                  return { me: result.login.user };
+                }
+                return data;
               }
-              return data;
-            });
+            );
             invalidAllPosts(cache);
           },
           logout(_result, _args, cache, _info) {
-            cache.updateQuery(
+            cache.updateQuery<MeQuery, MeQueryVariables>(
               { query: MeDocument },
-              (_data: MeQuery | null) => ({ me: null })
+              (_data) => ({ me: null })
             );
             resetVoteStatus(cache);
           },
