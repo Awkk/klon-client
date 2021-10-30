@@ -1,4 +1,4 @@
-import { Text, Flex, useColorModeValue } from "@chakra-ui/react";
+import { Text, Flex, Box, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import { CommentFragmentFragment } from "../generated/graphql";
 import { PostedBy } from "./PostedBy";
@@ -28,7 +28,9 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
         createdDate={comment.createdDate}
         short
       />
-      <Text fontSize="sm">{comment.text}</Text>
+      <Box mt='1'>
+        <Text fontSize="sm">{comment.text}</Text>
+      </Box>
     </Flex>
   );
 };
