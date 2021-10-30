@@ -175,17 +175,12 @@ export const urqlClientConfig: NextUrqlClientConfig = (
                   variables: { postId: result.deleteComment },
                 },
                 (data) => {
-                  console.log("result", result.deleteComment);
-                  console.log("data", data?.post?.comments);
-                  console.log("args", args);
-
                   if (data?.post) {
                     data.post.comments = data.post.comments.filter(
                       (comment) => comment.id !== args.id
                     );
+                    data.post.commentsCount--;
                   }
-                  console.log("data", data?.post?.comments);
-
                   return data;
                 }
               );
