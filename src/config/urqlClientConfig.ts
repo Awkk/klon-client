@@ -13,6 +13,8 @@ import Router from "next/router";
 import {
   CreateCommentMutation,
   CreateCommentMutationVariables,
+  DeleteCommentMutation,
+  DeleteCommentMutationVariables,
   DeletePostMutation,
   DeletePostMutationVariables,
   LoginMutation,
@@ -159,6 +161,35 @@ export const urqlClientConfig: NextUrqlClientConfig = (
                 return data;
               }
             );
+          },
+          deleteComment(
+            result: DeleteCommentMutation,
+            args: DeleteCommentMutationVariables,
+            cache,
+            _info
+          ) {
+            if (result.deleteComment) {
+              cache.updateQuery<PostQuery, PostQueryVariables>(
+                {
+                  query: PostDocument,
+                  variables: { postId: result.deleteComment },
+                },
+                (data) => {
+                  console.log("result", result.deleteComment);
+                  console.log("data", data?.post?.comments);
+                  console.log("args", args);
+
+                  if (data?.post) {
+                    data.post.comments = data.post.comments.filter(
+                      (comment) => comment.id !== args.id
+                    );
+                  }
+                  console.log("data", data?.post?.comments);
+
+                  return data;
+                }
+              );
+            }
           },
         },
       },

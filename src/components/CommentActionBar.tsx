@@ -61,7 +61,7 @@ export const CommentActionBar: React.FC<CommentActionBarProps> = ({
             isOpen={isOpen}
             onClose={onClose}
             onClick={async () => {
-              await deleteComment({ commentId: commentId });
+              await deleteComment({ id: commentId });
               onClose();
             }}
           />

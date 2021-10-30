@@ -37,7 +37,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createComment: Comment;
   createPost: Post;
-  deleteComment: Scalars['Boolean'];
+  deleteComment?: Maybe<Scalars['Float']>;
   deletePost: Scalars['Boolean'];
   login: UserResponse;
   logout: Scalars['Boolean'];
@@ -198,11 +198,11 @@ export type CreatePostMutationVariables = Exact<{
 export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, title: string, text: string, score: number, views: number, authorId: number, createdDate: any, updatedDate: any } };
 
 export type DeleteCommentMutationVariables = Exact<{
-  commentId: Scalars['Int'];
+  id: Scalars['Int'];
 }>;
 
 
-export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: boolean };
+export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment?: number | null | undefined };
 
 export type DeletePostMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -363,8 +363,8 @@ export function useCreatePostMutation() {
   return Urql.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument);
 };
 export const DeleteCommentDocument = gql`
-    mutation DeleteComment($commentId: Int!) {
-  deleteComment(id: $commentId)
+    mutation DeleteComment($id: Int!) {
+  deleteComment(id: $id)
 }
     `;
 

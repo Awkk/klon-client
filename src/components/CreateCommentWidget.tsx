@@ -2,7 +2,7 @@ import { Box, Button, Flex, useColorModeValue } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useCreateCommentMutation } from "../generated/graphql";
-import { createPostValidation } from "../utils/validationSchemas";
+import { createCommentValidation } from "../utils/validationSchemas";
 import { InputField } from "./InputField";
 
 interface CreateCommentWidgetProps {
@@ -39,7 +39,7 @@ export const CreateCommentWidget: React.FC<CreateCommentWidgetProps> = ({
       <Box w="100%">
         <Formik
           initialValues={initialValues}
-          validationSchema={createPostValidation}
+          validationSchema={createCommentValidation}
           validateOnBlur={false}
           onSubmit={async (value, { resetForm }) => {
             await createComment({ postId: postId, text: value.text });
