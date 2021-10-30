@@ -50,8 +50,9 @@ export const CreateCommentWidget: React.FC<CreateCommentWidgetProps> = ({
           initialValues={initialValues}
           validationSchema={validationSchema}
           validateOnBlur={false}
-          onSubmit={async (value) => {
+          onSubmit={async (value, { resetForm }) => {
             await createComment({ postId: postId, text: value.text });
+            resetForm();
           }}
         >
           {({ handleSubmit, isSubmitting }) => (
