@@ -28,7 +28,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
         createdDate={comment.createdDate}
         short
       />
-      <Box mt='1'>
+      <Box mt="1">
         <Text fontSize="sm">{comment.text}</Text>
       </Box>
     </Flex>

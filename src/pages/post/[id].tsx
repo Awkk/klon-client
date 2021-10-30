@@ -1,8 +1,9 @@
-import { Box, Stack } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import React from "react";
 import { CommentList } from "../../components/CommentList";
+import { CreateCommentWidget } from "../../components/CreateCommentWidget";
 import { PostItem } from "../../components/PostItem";
 import { PostSkeleton } from "../../components/PostSkeleton";
 import { urqlClientConfig } from "../../config/urqlClientConfig";
@@ -28,10 +29,13 @@ const Post: React.FC<PostProps> = ({}) => {
     return <Box>Error</Box>;
   }
   return (
-    <Stack w="100%" maxW="8xl" spacing="3">
-      <PostItem post={post} />
-      <CommentList comments={post.comments} />
-    </Stack>
+    <Flex w="100%" maxW="8xl" direction="column">
+      <PostItem post={post} styleProps={{ borderBottomWidth: "0" }} />
+      <CreateCommentWidget postId={post.id} />
+      <Box mt="3">
+        <CommentList comments={post.comments} />
+      </Box>
+    </Flex>
   );
 };
 

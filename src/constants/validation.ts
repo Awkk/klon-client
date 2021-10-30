@@ -6,3 +6,6 @@ export const createPostLimit = {
   title: { maxLength: 120 },
   text: { maxLength: 15000 },
 };
+export const commentLimit = {
+  text: { maxLength: 15000 },
+};

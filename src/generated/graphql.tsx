@@ -49,7 +49,7 @@ export type Mutation = {
 
 
 export type MutationCreateCommentArgs = {
-  postId: Scalars['Float'];
+  postId: Scalars['Int'];
   text: Scalars['String'];
 };
 
@@ -182,6 +182,14 @@ export type UserFragmentFragment = { __typename?: 'User', id: number, username: 
 
 export type UserResponseFragmentFragment = { __typename?: 'UserResponse', user?: { __typename?: 'User', id: number, username: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
 
+export type CreateCommentMutationVariables = Exact<{
+  postId: Scalars['Int'];
+  text: Scalars['String'];
+}>;
+
+
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'Comment', id: number, text: string, postId: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', username: string, id: number } } };
+
 export type CreatePostMutationVariables = Exact<{
   input: PostInput;
 }>;
@@ -302,6 +310,25 @@ export const UserResponseFragmentFragmentDoc = gql`
 }
     ${UserFragmentFragmentDoc}
 ${FieldErrorFragmentFragmentDoc}`;
+export const CreateCommentDocument = gql`
+    mutation CreateComment($postId: Int!, $text: String!) {
+  createComment(postId: $postId, text: $text) {
+    id
+    text
+    postId
+    createdDate
+    updatedDate
+    author {
+      username
+      id
+    }
+  }
+}
+    `;
+
+export function useCreateCommentMutation() {
+  return Urql.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument);
+};
 export const CreatePostDocument = gql`
     mutation CreatePost($input: PostInput!) {
   createPost(input: $input) {

@@ -1,4 +1,10 @@
-import { Box, Flex, useColorModeValue, Text } from "@chakra-ui/react";
+import {
+  Box,
+  ChakraProps,
+  Flex,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -14,9 +20,10 @@ type PostItemProps = {
     text?: string;
   };
   listMode?: boolean;
+  styleProps?: ChakraProps;
 };
 
-export const PostItem = ({ post, listMode }: PostItemProps) => {
+export const PostItem = ({ post, listMode, styleProps }: PostItemProps) => {
   const router = useRouter();
   const editParam = router.query.editing === "true";
   const [isEditing, setIsEditing] = useState<boolean>(editParam);
@@ -39,6 +46,7 @@ export const PostItem = ({ post, listMode }: PostItemProps) => {
       _last={{ borderBottomRadius: "md" }}
       cursor={listMode ? "pointer" : "default"}
       _hover={listMode ? { borderColor: hoverBorderColor } : undefined}
+      {...styleProps}
     >
       <Box
         onClick={(e) => {

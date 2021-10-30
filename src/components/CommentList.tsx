@@ -1,4 +1,4 @@
-import { Stack } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React from "react";
 import { CommentFragmentFragment } from "../generated/graphql";
 import { CommentItem } from "./CommentItem";
@@ -9,10 +9,10 @@ interface CommentListProps {
 
 export const CommentList: React.FC<CommentListProps> = ({ comments }) => {
   return (
-    <Stack>
+    <Box>
       {comments.map((comment) => (
         <CommentItem key={comment.id} comment={comment} />
       ))}
-    </Stack>
+    </Box>
   );
 };
