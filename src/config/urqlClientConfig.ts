@@ -11,11 +11,16 @@ import { Cache, cacheExchange } from "@urql/exchange-graphcache";
 import { NextUrqlClientConfig, SSRExchange } from "next-urql";
 import Router from "next/router";
 import {
+  CreateCommentMutation,
+  CreateCommentMutationVariables,
   DeletePostMutation,
   DeletePostMutationVariables,
   LoginMutation,
   MeDocument,
   MeQuery,
+  PostDocument,
+  PostQuery,
+  PostQueryVariables,
   PostsDocument,
   PostsQuery,
   RegisterMutation,
@@ -130,6 +135,20 @@ export const urqlClientConfig: NextUrqlClientConfig = (
                 id: args.id,
               });
             }
+          },
+          createComment(
+            result: CreateCommentMutation,
+            args: CreateCommentMutationVariables,
+            cache,
+            _info
+          ) {
+            cache.updateQuery<PostQuery, PostQueryVariables>(
+              { query: PostDocument, variables: { postId: args.postId } },
+              (data) => {
+                data?.post?.comments.push(result.createComment);
+                return data;
+              }
+            );
           },
         },
       },
