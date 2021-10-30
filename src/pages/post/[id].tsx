@@ -7,11 +7,12 @@ import { CreateCommentWidget } from "../../components/CreateCommentWidget";
 import { PostItem } from "../../components/PostItem";
 import { PostSkeleton } from "../../components/PostSkeleton";
 import { urqlClientConfig } from "../../config/urqlClientConfig";
-import { usePostQuery } from "../../generated/graphql";
+import { useMeQuery, usePostQuery } from "../../generated/graphql";
 
 interface PostProps {}
 
 const Post: React.FC<PostProps> = ({}) => {
+  const [{ data: meData }] = useMeQuery();
   const router = useRouter();
   const postId =
     typeof router.query.id === "string" ? parseInt(router.query.id) : -1;
@@ -30,8 +31,13 @@ const Post: React.FC<PostProps> = ({}) => {
   }
   return (
     <Flex w="100%" maxW="8xl" direction="column">
-      <PostItem post={post} styleProps={{ borderBottomWidth: "0" }} />
-      <CreateCommentWidget postId={post.id} />
+      <PostItem
+        post={post}
+        styleProps={
+          meData?.me ? { borderBottomWidth: "0" } : { borderBottomRadius: "md" }
+        }
+      />
+      {meData?.me ? <CreateCommentWidget postId={post.id} /> : null}
       <Box mt="3">
         <CommentList comments={post.comments} />
       </Box>
