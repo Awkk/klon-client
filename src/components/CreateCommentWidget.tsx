@@ -1,9 +1,8 @@
 import { Box, Button, Flex, useColorModeValue } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React from "react";
-import * as Yup from "yup";
-import { commentLimit } from "../constants/validation";
 import { useCreateCommentMutation } from "../generated/graphql";
+import { createPostValidation } from "../utils/validationSchemas";
 import { InputField } from "./InputField";
 
 interface CreateCommentWidgetProps {
@@ -18,15 +17,6 @@ const initialValues: FormData = {
   text: "",
 };
 
-const validationSchema = Yup.object({
-  text: Yup.string()
-    .max(
-      commentLimit.text.maxLength,
-      `Must be at most ${commentLimit.text.maxLength} characters`
-    )
-    .required("Required"),
-});
-
 export const CreateCommentWidget: React.FC<CreateCommentWidgetProps> = ({
   postId,
 }) => {
@@ -37,7 +27,8 @@ export const CreateCommentWidget: React.FC<CreateCommentWidgetProps> = ({
   return (
     <Flex
       w="100%"
-      px="3"
+      pl="12"
+      pr="4"
       py="3"
       bgColor={bgColor}
       borderWidth="0.5px"
@@ -48,7 +39,7 @@ export const CreateCommentWidget: React.FC<CreateCommentWidgetProps> = ({
       <Box w="100%">
         <Formik
           initialValues={initialValues}
-          validationSchema={validationSchema}
+          validationSchema={createPostValidation}
           validateOnBlur={false}
           onSubmit={async (value, { resetForm }) => {
             await createComment({ postId: postId, text: value.text });

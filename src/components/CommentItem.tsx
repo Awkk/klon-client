@@ -1,6 +1,8 @@
 import { Text, Flex, Box, useColorModeValue } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { CommentFragmentFragment } from "../generated/graphql";
+import { CommentActionBar } from "./CommentActionBar";
+import { CommentUpdateForm } from "./CommentUpdateForm";
 import { PostedBy } from "./PostedBy";
 
 interface CommentItemProps {
@@ -8,6 +10,7 @@ interface CommentItemProps {
 }
 
 export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const bgColor = useColorModeValue("gray.50", "gray.800");
   const borderColor = useColorModeValue("gray.300", "gray.600");
 
@@ -20,17 +23,29 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
       bgColor={bgColor}
       borderWidth="0.5px"
       borderColor={borderColor}
-      _first={{ borderTopRadius: "md" }}
-      _last={{ borderBottomRadius: "md" }}
+      borderRadius="md"
     >
       <PostedBy
         author={comment.author}
         createdDate={comment.createdDate}
         short
       />
-      <Box mt="1">
-        <Text fontSize="sm">{comment.text}</Text>
-      </Box>
+      {isEditing ? (
+        <CommentUpdateForm
+          id={comment.id}
+          text={comment.text}
+          setIsEditing={setIsEditing}
+        />
+      ) : (
+        <Box my="1">
+          <Text fontSize="sm">{comment.text}</Text>
+        </Box>
+      )}
+      <CommentActionBar
+        authorId={comment.author.id}
+        commentId={comment.id}
+        setIsEditing={setIsEditing}
+      />
     </Flex>
   );
 };

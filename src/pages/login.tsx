@@ -7,8 +7,7 @@ import { InputField } from "../components/InputField";
 import { urqlClientConfig } from "../config/urqlClientConfig";
 import { useLoginMutation } from "../generated/graphql";
 import { errorsToMap } from "../utils/errorsToMap";
-import * as Yup from "yup";
-import { authLimit } from "../constants/validation";
+import { loginValidation } from "../utils/validationSchemas";
 
 interface LoginProps {}
 
@@ -21,29 +20,6 @@ const initialValues: FormData = {
   username: "",
   password: "",
 };
-
-const validationSchema = Yup.object({
-  username: Yup.string()
-    .min(
-      authLimit.username.minLength,
-      `Must be at least ${authLimit.username.minLength} characters`
-    )
-    .max(
-      authLimit.username.maxLength,
-      `Must be at most ${authLimit.username.maxLength} characters`
-    )
-    .required("Required"),
-  password: Yup.string()
-    .min(
-      authLimit.password.minLength,
-      `Must be at least ${authLimit.password.minLength} characters`
-    )
-    .max(
-      authLimit.password.maxLength,
-      `Must be at most ${authLimit.password.maxLength} characters`
-    )
-    .required("Required"),
-});
 
 const Login: React.FC<LoginProps> = () => {
   const [_, login] = useLoginMutation();
@@ -81,7 +57,7 @@ const Login: React.FC<LoginProps> = () => {
     >
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={loginValidation}
         onSubmit={submitLogin}
         validateOnBlur={false}
       >
