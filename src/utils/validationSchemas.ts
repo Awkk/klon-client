@@ -12,6 +12,7 @@ export const createPostValidation = Yup.object({
       `Must be at most ${createPostLimit.title.maxLength} characters`
     )
     .required("Required"),
+  link: Yup.string().url(),
   text: Yup.string()
     .max(
       createPostLimit.text.maxLength,

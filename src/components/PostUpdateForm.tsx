@@ -19,6 +19,7 @@ interface PostUpdateFormProps {
 interface PostUpdateFormData {
   title: string;
   text: string;
+  link?: string;
 }
 
 export const PostUpdateForm: React.FC<PostUpdateFormProps> = ({
@@ -30,6 +31,7 @@ export const PostUpdateForm: React.FC<PostUpdateFormProps> = ({
   const initialValues: PostUpdateFormData = {
     title: post.title,
     text: post.text ? post.text : "",
+    link: post.link ? post.link : undefined,
   };
 
   return (
@@ -40,7 +42,11 @@ export const PostUpdateForm: React.FC<PostUpdateFormProps> = ({
         onSubmit={async (values) => {
           const result = await updatePost({
             id: post.id,
-            input: { title: values.title, text: values.text },
+            input: {
+              title: values.title,
+              text: values.text,
+              link: values.link,
+            },
           });
           if (!result.error) {
             setIsEditing(false);
@@ -52,6 +58,7 @@ export const PostUpdateForm: React.FC<PostUpdateFormProps> = ({
           <Form onSubmit={handleSubmit}>
             <Stack spacing="4">
               <InputField name="title" placeholder="Title" />
+              <InputField name="link" placeholder="Link (optional)" />
               <InputField name="text" placeholder="Text" textarea />
               <Flex justifyContent="flex-end">
                 <Button

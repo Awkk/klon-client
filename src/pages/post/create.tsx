@@ -69,6 +69,7 @@ const CreatePost: React.FC<{}> = ({}) => {
             <Form onSubmit={handleSubmit}>
               <Stack spacing="4">
                 <InputField name="title" label="Title" placeholder="Title" />
+                <InputField name="link" label="Link" placeholder="Link (optional)" />
                 <InputField
                   name="text"
                   label="Text"
