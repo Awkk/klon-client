@@ -3,6 +3,7 @@ mutation UpdatePost($input: PostInput!, $id: Int!) {
     id
     title
     text
+    link
     score
     views
     updatedDate
