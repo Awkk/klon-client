@@ -7,5 +7,10 @@ export const theme = extendTheme({
         _focus: { boxShadow: "none" },
       },
     },
+    Link: {
+      baseStyle: {
+        _focus: { boxShadow: "none" },
+      },
+    },
   },
 });
