@@ -31,7 +31,7 @@ export const PostUpdateForm: React.FC<PostUpdateFormProps> = ({
   const initialValues: PostUpdateFormData = {
     title: post.title,
     text: post.text ? post.text : "",
-    link: post.link ? post.link : undefined,
+    link: post.link ? post.link : "",
   };
 
   return (
