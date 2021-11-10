@@ -140,6 +140,7 @@ export type QueryPostArgs = {
 export type QueryPostsArgs = {
   cursor?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
+  userId?: Maybe<Scalars['Int']>;
 };
 
 export type User = {
@@ -269,6 +270,7 @@ export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', te
 export type PostsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   cursor?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -477,8 +479,8 @@ export function usePostQuery(options: Omit<Urql.UseQueryArgs<PostQueryVariables>
   return Urql.useQuery<PostQuery>({ query: PostDocument, ...options });
 };
 export const PostsDocument = gql`
-    query Posts($limit: Int, $cursor: String) {
-  posts(limit: $limit, cursor: $cursor) {
+    query Posts($limit: Int, $cursor: String, $userId: Int) {
+  posts(limit: $limit, cursor: $cursor, userId: $userId) {
     id
     posts {
       ...PostFragment

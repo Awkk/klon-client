@@ -26,9 +26,11 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     // User logged in
     links = (
       <Flex align={"center"}>
-        <Button size="sm" variant="ghost" colorScheme="teal" fontSize="md">
-          {data.me.username}
-        </Button>
+        <NextLink href={`/user/${data.me.id}`}>
+          <Button size="sm" variant="ghost" colorScheme="teal" fontSize="md">
+            {data.me.username}
+          </Button>
+        </NextLink>
         <Button
           size="sm"
           variant="ghost"
