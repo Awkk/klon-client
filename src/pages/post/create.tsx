@@ -79,7 +79,7 @@ const CreatePost: React.FC<{}> = ({}) => {
                 <InputField
                   name="text"
                   label="Text"
-                  placeholder="Text"
+                  placeholder="Text (optional)"
                   textarea
                 />
                 <Flex justifyContent="flex-end">

@@ -13,12 +13,10 @@ export const createPostValidation = Yup.object({
     )
     .required("Required"),
   link: Yup.string().url(),
-  text: Yup.string()
-    .max(
-      createPostLimit.text.maxLength,
-      `Must be at most ${createPostLimit.text.maxLength} characters`
-    )
-    .required("Required"),
+  text: Yup.string().max(
+    createPostLimit.text.maxLength,
+    `Must be at most ${createPostLimit.text.maxLength} characters`
+  ),
 });
 
 export const createCommentValidation = Yup.object({

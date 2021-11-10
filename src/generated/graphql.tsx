@@ -113,7 +113,7 @@ export type Post = {
   id: Scalars['Int'];
   link?: Maybe<Scalars['String']>;
   score: Scalars['Int'];
-  text: Scalars['String'];
+  text?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   updatedDate: Scalars['DateTime'];
   views: Scalars['Int'];
@@ -198,7 +198,7 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, title: string, text: string, score: number, views: number, authorId: number, createdDate: any, updatedDate: any } };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, title: string, text?: string | null | undefined, score: number, views: number, authorId: number, createdDate: any, updatedDate: any } };
 
 export type DeleteCommentMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -247,7 +247,7 @@ export type UpdatePostMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', id: number, title: string, text: string, link?: string | null | undefined, score: number, views: number, updatedDate: any } | null | undefined };
+export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', id: number, title: string, text?: string | null | undefined, link?: string | null | undefined, score: number, views: number, updatedDate: any } | null | undefined };
 
 export type VoteMutationVariables = Exact<{
   value: Scalars['Int'];
@@ -267,7 +267,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', text: string, id: number, title: string, link?: string | null | undefined, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, comments: Array<{ __typename?: 'Comment', id: number, text: string, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }>, author: { __typename?: 'User', id: number, username: string } } | null | undefined };
+export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', text?: string | null | undefined, id: number, title: string, link?: string | null | undefined, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, comments: Array<{ __typename?: 'Comment', id: number, text: string, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }>, author: { __typename?: 'User', id: number, username: string } } | null | undefined };
 
 export type PostsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;

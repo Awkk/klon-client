@@ -16,9 +16,7 @@ import { PostUpdateForm } from "./PostUpdateForm";
 import { VoteSection } from "./VoteSection";
 
 type PostItemProps = {
-  post: PostFragmentFragment & {
-    text?: string;
-  };
+  post: PostFragmentFragment;
   listMode?: boolean;
   styleProps?: ChakraProps;
 };

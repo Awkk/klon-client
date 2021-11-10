@@ -59,7 +59,7 @@ export const PostUpdateForm: React.FC<PostUpdateFormProps> = ({
             <Stack spacing="4">
               <InputField name="title" placeholder="Title" />
               <InputField name="link" placeholder="Link (optional)" />
-              <InputField name="text" placeholder="Text" textarea />
+              <InputField name="text" placeholder="Text (optional)" textarea />
               <Flex justifyContent="flex-end">
                 <Button
                   variant="ghost"

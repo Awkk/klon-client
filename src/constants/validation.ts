@@ -3,7 +3,7 @@ export const authLimit = {
   password: { minLength: 6, maxLength: 128 },
 };
 export const createPostLimit = {
-  title: { maxLength: 120 },
+  title: { maxLength: 300 },
   text: { maxLength: 15000 },
 };
 export const commentLimit = {
