@@ -19,7 +19,7 @@ import { VoteSection } from "./VoteSection";
 
 type PostItemProps = {
   post: PostFragmentFragment & {
-    text?: string;
+    text?: string | null;
   };
   listMode?: boolean;
   styleProps?: ChakraProps;

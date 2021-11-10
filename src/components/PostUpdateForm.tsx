@@ -11,7 +11,7 @@ import { InputField } from "./InputField";
 
 interface PostUpdateFormProps {
   post: PostFragmentFragment & {
-    text?: string;
+    text?: string | null;
   };
   setIsEditing: (flag: boolean) => void;
 }
