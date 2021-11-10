@@ -132,6 +132,7 @@ export type Query = {
   me?: Maybe<User>;
   post?: Maybe<Post>;
   posts: PaginatedPosts;
+  user?: Maybe<User>;
 };
 
 
@@ -144,6 +145,11 @@ export type QueryPostsArgs = {
   cursor?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['Int'];
 };
 
 export type User = {
@@ -278,6 +284,13 @@ export type PostsQueryVariables = Exact<{
 
 
 export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', id: string, hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, link?: string | null | undefined, previewImg?: string | null | undefined, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }> } };
+
+export type UserQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: number, username: string } | null | undefined };
 
 export const CommentFragmentFragmentDoc = gql`
     fragment CommentFragment on Comment {
@@ -499,4 +512,15 @@ export const PostsDocument = gql`
 
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
+};
+export const UserDocument = gql`
+    query User($id: Int!) {
+  user(id: $id) {
+    ...UserFragment
+  }
+}
+    ${UserFragmentFragmentDoc}`;
+
+export function useUserQuery(options: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
 };

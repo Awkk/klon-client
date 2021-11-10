@@ -1,4 +1,4 @@
-import { Box, Stack } from "@chakra-ui/layout";
+import { Box, Stack, Text } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import Head from "next/head";
@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { PostPage } from "../../components/PostPage";
 import { urqlClientConfig } from "../../config/urqlClientConfig";
 import { postPerPageLimit } from "../../constants/post";
-import { PostsQueryVariables } from "../../generated/graphql";
+import { PostsQueryVariables, useUserQuery } from "../../generated/graphql";
 
 const User: NextPage = () => {
   const router = useRouter();
@@ -17,6 +17,10 @@ const User: NextPage = () => {
   const [nextPageVariable, setNextPageVariable] =
     useState<PostsQueryVariables | null>(null);
   const pageListRef = useRef<HTMLDivElement | null>(null);
+  const [{ data }] = useUserQuery({
+    variables: { id: userId },
+    pause: userId === -1,
+  });
 
   useEffect(() => {
     // Initial pageVariable when userId is parsed from router query
@@ -55,9 +59,14 @@ const User: NextPage = () => {
   return (
     <>
       <Head>
-        <title>User - Klon</title>
+        <title>{data?.user ? data.user.username : "User"} - Klon</title>
       </Head>
       <Stack maxW="8xl" w="100%" spacing="4" py="2" ref={pageListRef}>
+        <Box>
+          <Text fontSize="xl" fontWeight="semibold">{`${
+            data?.user ? data.user.username : "User"
+          }'s posts`}</Text>
+        </Box>
         <Box>
           {pageVariables.map((variables, i) => {
             return (
