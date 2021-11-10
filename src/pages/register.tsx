@@ -2,6 +2,7 @@ import { Box, Button, useColorModeValue, VStack } from "@chakra-ui/react";
 import { Form, Formik, FormikHelpers } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/dist/client/router";
+import Head from "next/head";
 import React from "react";
 import { InputField } from "../components/InputField";
 import { urqlClientConfig } from "../config/urqlClientConfig";
@@ -45,60 +46,65 @@ const Register: React.FC<RegisterProps> = () => {
   };
 
   return (
-    <Box
-      w="100%"
-      maxW="sm"
-      h="fit-content"
-      m="4"
-      p="7"
-      bgColor={bgColor}
-      borderRadius="2xl"
-      overflow="hidden"
-    >
-      <Formik
-        initialValues={initialValues}
-        validationSchema={registerValidation}
-        onSubmit={submitRegister}
-        validateOnBlur={false}
+    <>
+      <Head>
+        <title>Sign Up - Klon</title>
+      </Head>
+      <Box
+        w="100%"
+        maxW="sm"
+        h="fit-content"
+        m="4"
+        p="7"
+        bgColor={bgColor}
+        borderRadius="2xl"
+        overflow="hidden"
       >
-        {({ handleSubmit, isSubmitting }) => (
-          <Form onSubmit={handleSubmit}>
-            <VStack spacing={4}>
-              <InputField
-                name="username"
-                label="Username"
-                placeholder="username"
-              />
+        <Formik
+          initialValues={initialValues}
+          validationSchema={registerValidation}
+          onSubmit={submitRegister}
+          validateOnBlur={false}
+        >
+          {({ handleSubmit, isSubmitting }) => (
+            <Form onSubmit={handleSubmit}>
+              <VStack spacing={4}>
+                <InputField
+                  name="username"
+                  label="Username"
+                  placeholder="username"
+                />
 
-              <InputField
-                name="password"
-                label="Password"
-                placeholder="password"
-                type="password"
-              />
+                <InputField
+                  name="password"
+                  label="Password"
+                  placeholder="password"
+                  type="password"
+                />
 
-              <InputField
-                name="confirmPassword"
-                label="Confirm Password"
-                placeholder="password"
-                type="password"
-              />
+                <InputField
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  placeholder="password"
+                  type="password"
+                />
 
-              <Button
-                width="100%"
-                mt="5"
-                type="submit"
-                isLoading={isSubmitting}
-                variant="solid"
-                colorScheme="teal"
-              >
-                Sign Up
-              </Button>
-            </VStack>
-          </Form>
-        )}
-      </Formik>
-    </Box>
+                <Button
+                  width="100%"
+                  mt="5"
+                  type="submit"
+                  isLoading={isSubmitting}
+                  variant="solid"
+                  colorScheme="teal"
+                >
+                  Sign Up
+                </Button>
+              </VStack>
+            </Form>
+          )}
+        </Formik>
+      </Box>
+    </>
   );
 };
 

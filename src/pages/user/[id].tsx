@@ -1,6 +1,7 @@
 import { Box, Stack } from "@chakra-ui/layout";
 import type { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { PostPage } from "../../components/PostPage";
@@ -52,26 +53,31 @@ const User: NextPage = () => {
   }, [nextPageVariable, pageVariables]);
 
   return (
-    <Stack maxW="8xl" w="100%" spacing="4" py="2" ref={pageListRef}>
-      <Box>
-        {pageVariables.map((variables, i) => {
-          return (
-            <PostPage
-              key={"" + variables.cursor}
-              variables={variables}
-              isLastPage={i === pageVariables.length - 1}
-              setNextCursor={(cursor) =>
-                setNextPageVariable({
-                  limit: postPerPageLimit,
-                  cursor: cursor,
-                  userId: userId,
-                })
-              }
-            />
-          );
-        })}
-      </Box>
-    </Stack>
+    <>
+      <Head>
+        <title>User - Klon</title>
+      </Head>
+      <Stack maxW="8xl" w="100%" spacing="4" py="2" ref={pageListRef}>
+        <Box>
+          {pageVariables.map((variables, i) => {
+            return (
+              <PostPage
+                key={"" + variables.cursor}
+                variables={variables}
+                isLastPage={i === pageVariables.length - 1}
+                setNextCursor={(cursor) =>
+                  setNextPageVariable({
+                    limit: postPerPageLimit,
+                    cursor: cursor,
+                    userId: userId,
+                  })
+                }
+              />
+            );
+          })}
+        </Box>
+      </Stack>
+    </>
   );
 };
 

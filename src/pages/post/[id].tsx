@@ -1,5 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import { CommentList } from "../../components/CommentList";
@@ -30,18 +31,25 @@ const Post: React.FC<PostProps> = ({}) => {
     return <Box>Error</Box>;
   }
   return (
-    <Flex w="100%" maxW="8xl" direction="column">
-      <PostItem
-        post={post}
-        styleProps={
-          meData?.me ? { borderBottomWidth: "0" } : { borderBottomRadius: "md" }
-        }
-      />
-      {meData?.me ? <CreateCommentWidget postId={post.id} /> : null}
-      <Box mt="3">
-        <CommentList comments={post.comments} />
-      </Box>
-    </Flex>
+    <>
+      <Head>
+        <title>{post.title} - Klon</title>
+      </Head>
+      <Flex w="100%" maxW="8xl" direction="column">
+        <PostItem
+          post={post}
+          styleProps={
+            meData?.me
+              ? { borderBottomWidth: "0" }
+              : { borderBottomRadius: "md" }
+          }
+        />
+        {meData?.me ? <CreateCommentWidget postId={post.id} /> : null}
+        <Box mt="3">
+          <CommentList comments={post.comments} />
+        </Box>
+      </Flex>
+    </>
   );
 };
 

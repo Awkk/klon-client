@@ -2,6 +2,7 @@ import { Box, Button, useColorModeValue } from "@chakra-ui/react";
 import { Form, Formik, FormikHelpers } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/dist/client/router";
+import Head from "next/head";
 import React from "react";
 import { InputField } from "../components/InputField";
 import { urqlClientConfig } from "../config/urqlClientConfig";
@@ -45,51 +46,56 @@ const Login: React.FC<LoginProps> = () => {
   };
 
   return (
-    <Box
-      w="100%"
-      maxW="sm"
-      h="fit-content"
-      m="4"
-      p="7"
-      bgColor={bgColor}
-      borderRadius="2xl"
-      overflow="hidden"
-    >
-      <Formik
-        initialValues={initialValues}
-        validationSchema={loginValidation}
-        onSubmit={submitLogin}
-        validateOnBlur={false}
+    <>
+      <Head>
+        <title>Log In - Klon</title>
+      </Head>
+      <Box
+        w="100%"
+        maxW="sm"
+        h="fit-content"
+        m="4"
+        p="7"
+        bgColor={bgColor}
+        borderRadius="2xl"
+        overflow="hidden"
       >
-        {({ handleSubmit, isSubmitting }) => (
-          <Form onSubmit={handleSubmit}>
-            <InputField
-              name="username"
-              label="Username"
-              placeholder="username"
-            />
-            <Box mt="4">
+        <Formik
+          initialValues={initialValues}
+          validationSchema={loginValidation}
+          onSubmit={submitLogin}
+          validateOnBlur={false}
+        >
+          {({ handleSubmit, isSubmitting }) => (
+            <Form onSubmit={handleSubmit}>
               <InputField
-                name="password"
-                label="Password"
-                placeholder="password"
-                type="password"
+                name="username"
+                label="Username"
+                placeholder="username"
               />
-            </Box>
-            <Button
-              width="100%"
-              mt="5"
-              type="submit"
-              isLoading={isSubmitting}
-              variant="solid"
-              colorScheme="teal"
-            >
-              Log In
-            </Button>
-          </Form>
-        )}
-      </Formik>
-    </Box>
+              <Box mt="4">
+                <InputField
+                  name="password"
+                  label="Password"
+                  placeholder="password"
+                  type="password"
+                />
+              </Box>
+              <Button
+                width="100%"
+                mt="5"
+                type="submit"
+                isLoading={isSubmitting}
+                variant="solid"
+                colorScheme="teal"
+              >
+                Log In
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </Box>
+    </>
   );
 };
 

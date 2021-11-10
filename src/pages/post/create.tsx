@@ -10,6 +10,7 @@ import { urqlClientConfig } from "../../config/urqlClientConfig";
 import { useCreatePostMutation } from "../../generated/graphql";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
 import { createPostValidation } from "../../utils/validationSchemas";
+import Head from "next/head";
 
 interface CreatePostFormData {
   title: string;
@@ -40,51 +41,56 @@ const CreatePost: React.FC<{}> = ({}) => {
   };
 
   return (
-    <Stack
-      width="100%"
-      maxW="lg"
-      px="5"
-      py="4"
-      mt="3"
-      spacing="3"
-      bgColor={bgColor}
-      borderRadius="md"
-    >
-      <Text fontSize="2xl" fontWeight="medium">
-        Create a Post
-      </Text>
-      <Divider bgColor={dividerColor} />
-      <Formik
-        initialValues={initialValues}
-        validationSchema={createPostValidation}
-        onSubmit={submitPost}
-        validateOnBlur={false}
+    <>
+      <Head>
+        <title>Create Post - Klon</title>
+      </Head>
+      <Stack
+        width="100%"
+        maxW="lg"
+        px="5"
+        py="4"
+        mt="3"
+        spacing="3"
+        bgColor={bgColor}
+        borderRadius="md"
       >
-        {({ handleSubmit, isSubmitting }) => (
-          <Form onSubmit={handleSubmit}>
-            <Stack spacing="4">
-              <InputField name="title" label="Title" placeholder="Title" />
-              <InputField
-                name="text"
-                label="Text"
-                placeholder="Text"
-                textarea
-              />
-              <Flex justifyContent="flex-end">
-                <Button
-                  type="submit"
-                  isLoading={isSubmitting}
-                  variant="solid"
-                  colorScheme="teal"
-                >
-                  POST
-                </Button>
-              </Flex>
-            </Stack>
-          </Form>
-        )}
-      </Formik>
-    </Stack>
+        <Text fontSize="2xl" fontWeight="medium">
+          Create a Post
+        </Text>
+        <Divider bgColor={dividerColor} />
+        <Formik
+          initialValues={initialValues}
+          validationSchema={createPostValidation}
+          onSubmit={submitPost}
+          validateOnBlur={false}
+        >
+          {({ handleSubmit, isSubmitting }) => (
+            <Form onSubmit={handleSubmit}>
+              <Stack spacing="4">
+                <InputField name="title" label="Title" placeholder="Title" />
+                <InputField
+                  name="text"
+                  label="Text"
+                  placeholder="Text"
+                  textarea
+                />
+                <Flex justifyContent="flex-end">
+                  <Button
+                    type="submit"
+                    isLoading={isSubmitting}
+                    variant="solid"
+                    colorScheme="teal"
+                  >
+                    POST
+                  </Button>
+                </Flex>
+              </Stack>
+            </Form>
+          )}
+        </Formik>
+      </Stack>
+    </>
   );
 };
 
