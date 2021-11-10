@@ -10,6 +10,7 @@ import {
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import ReactPlayer from "react-player/youtube";
 import { PostFragmentFragment } from "../generated/graphql";
 import { PostActionBar } from "./PostActionBar";
 import { PostedBy } from "./PostedBy";
@@ -123,6 +124,24 @@ export const PostItem = ({ post, listMode, styleProps }: PostItemProps) => {
                       {post.link}
                     </Link>
                   </Text>
+                </Box>
+              ) : null}
+              {post.link && !listMode && ReactPlayer.canPlay(post.link) ? (
+                <Box my="3" mr="2" position="relative" pt="56.25%">
+                  <ReactPlayer
+                    url={post.link}
+                    controls={true}
+                    width="100%"
+                    height="100%"
+                    style={{ position: "absolute", top: 0, left: 0 }}
+                  />
+                </Box>
+              ) : null}
+              {post.link &&
+              !listMode &&
+              /\.(jpeg|jpg|gif|png)$/.test(post.link) ? (
+                <Box my="3">
+                  <Image src={post.link} alt={`Image for ${post.title}`} />
                 </Box>
               ) : null}
               {post.text ? (
