@@ -112,6 +112,7 @@ export type Post = {
   createdDate: Scalars['DateTime'];
   id: Scalars['Int'];
   link?: Maybe<Scalars['String']>;
+  previewImg?: Maybe<Scalars['String']>;
   score: Scalars['Int'];
   text?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -179,7 +180,7 @@ export type CommentFragmentFragment = { __typename?: 'Comment', id: number, text
 
 export type FieldErrorFragmentFragment = { __typename?: 'FieldError', field: string, message: string };
 
-export type PostFragmentFragment = { __typename?: 'Post', id: number, title: string, link?: string | null | undefined, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } };
+export type PostFragmentFragment = { __typename?: 'Post', id: number, title: string, link?: string | null | undefined, previewImg?: string | null | undefined, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } };
 
 export type UserFragmentFragment = { __typename?: 'User', id: number, username: string };
 
@@ -247,7 +248,7 @@ export type UpdatePostMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', id: number, title: string, text?: string | null | undefined, link?: string | null | undefined, score: number, views: number, updatedDate: any } | null | undefined };
+export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', id: number, title: string, text?: string | null | undefined, link?: string | null | undefined, previewImg?: string | null | undefined, score: number, views: number, updatedDate: any } | null | undefined };
 
 export type VoteMutationVariables = Exact<{
   value: Scalars['Int'];
@@ -267,7 +268,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', text?: string | null | undefined, id: number, title: string, link?: string | null | undefined, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, comments: Array<{ __typename?: 'Comment', id: number, text: string, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }>, author: { __typename?: 'User', id: number, username: string } } | null | undefined };
+export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', text?: string | null | undefined, id: number, title: string, link?: string | null | undefined, previewImg?: string | null | undefined, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, comments: Array<{ __typename?: 'Comment', id: number, text: string, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }>, author: { __typename?: 'User', id: number, username: string } } | null | undefined };
 
 export type PostsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
@@ -276,7 +277,7 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', id: string, hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, link?: string | null | undefined, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', id: string, hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, link?: string | null | undefined, previewImg?: string | null | undefined, score: number, views: number, voteStatus: number, commentsCount: number, createdDate: any, updatedDate: any, author: { __typename?: 'User', id: number, username: string } }> } };
 
 export const CommentFragmentFragmentDoc = gql`
     fragment CommentFragment on Comment {
@@ -295,6 +296,7 @@ export const PostFragmentFragmentDoc = gql`
   id
   title
   link
+  previewImg
   score
   views
   voteStatus
@@ -436,6 +438,7 @@ export const UpdatePostDocument = gql`
     title
     text
     link
+    previewImg
     score
     views
     updatedDate

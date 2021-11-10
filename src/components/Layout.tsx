@@ -33,7 +33,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       </Head>
       <Box minH="100vh" bgColor={bgColor}>
         <NavBar />
-        <Flex justifyContent="center" p="4" flex="1">
+        <Flex justifyContent="center" p={[1, 4]} flex="1">
           {children}
         </Flex>
       </Box>
