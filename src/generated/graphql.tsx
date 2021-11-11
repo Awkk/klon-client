@@ -127,6 +127,12 @@ export type PostInput = {
   title: Scalars['String'];
 };
 
+export enum PostSort {
+  CommentsCount = 'commentsCount',
+  CreatedDate = 'createdDate',
+  Score = 'score'
+}
+
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
@@ -143,7 +149,10 @@ export type QueryPostArgs = {
 
 export type QueryPostsArgs = {
   cursor?: Maybe<Scalars['String']>;
+  idCursor?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
+  order?: Maybe<SortOrder>;
+  sort?: Maybe<PostSort>;
   userId?: Maybe<Scalars['Int']>;
 };
 
@@ -151,6 +160,11 @@ export type QueryPostsArgs = {
 export type QueryUserArgs = {
   id: Scalars['Int'];
 };
+
+export enum SortOrder {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
 
 export type User = {
   __typename?: 'User';
@@ -279,7 +293,10 @@ export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', te
 export type PostsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   cursor?: Maybe<Scalars['String']>;
+  idCursor?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['Int']>;
+  sort?: Maybe<PostSort>;
+  order?: Maybe<SortOrder>;
 }>;
 
 
@@ -499,8 +516,15 @@ export function usePostQuery(options: Omit<Urql.UseQueryArgs<PostQueryVariables>
   return Urql.useQuery<PostQuery>({ query: PostDocument, ...options });
 };
 export const PostsDocument = gql`
-    query Posts($limit: Int, $cursor: String, $userId: Int) {
-  posts(limit: $limit, cursor: $cursor, userId: $userId) {
+    query Posts($limit: Int, $cursor: String, $idCursor: Int, $userId: Int, $sort: PostSort, $order: SortOrder) {
+  posts(
+    limit: $limit
+    cursor: $cursor
+    idCursor: $idCursor
+    userId: $userId
+    sort: $sort
+    order: $order
+  ) {
     id
     posts {
       ...PostFragment

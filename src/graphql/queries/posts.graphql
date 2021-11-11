@@ -1,5 +1,19 @@
-query Posts($limit: Int, $cursor: String, $userId: Int) {
-  posts(limit: $limit, cursor: $cursor, userId: $userId) {
+query Posts(
+  $limit: Int
+  $cursor: String
+  $idCursor: Int
+  $userId: Int
+  $sort: PostSort
+  $order: SortOrder
+) {
+  posts(
+    limit: $limit
+    cursor: $cursor
+    idCursor: $idCursor
+    userId: $userId
+    sort: $sort
+    order: $order
+  ) {
     id
     posts {
       ...PostFragment

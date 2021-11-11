@@ -1,25 +1,35 @@
 import { Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { PostsQueryVariables, usePostsQuery } from "../generated/graphql";
+import {
+  PostSort,
+  PostsQueryVariables,
+  usePostsQuery,
+} from "../generated/graphql";
 import { PostItem } from "./PostItem";
 import { PostSkeleton } from "./PostSkeleton";
 
 type PostPageProps = {
   variables: PostsQueryVariables;
   isLastPage: boolean;
-  setNextCursor: (cursor: string) => void;
+  sort: PostSort;
+  setNextCursor: (cursor: string, idCursor: number) => void;
 };
 
 export const PostPage = ({
   variables,
   isLastPage,
+  sort,
   setNextCursor,
 }: PostPageProps) => {
-  const [{ data, fetching }] = usePostsQuery({ variables });
+  const [{ data, fetching }] = usePostsQuery({
+    variables,
+    requestPolicy: "cache-and-network",
+  });
 
   useEffect(() => {
     if (!fetching && isLastPage && data?.posts.hasMore) {
-      setNextCursor(data.posts.posts[data.posts.posts.length - 1].createdDate);
+      const lastPost = data.posts.posts[data.posts.posts.length - 1];
+      setNextCursor("" + lastPost[sort], lastPost.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetching, isLastPage, data?.posts.hasMore, data?.posts.posts]);
