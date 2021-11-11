@@ -61,7 +61,7 @@ const User: NextPage = () => {
       <Head>
         <title>{data?.user ? data.user.username : "User"} - Klon</title>
       </Head>
-      <Stack maxW="8xl" w="100%" spacing="4" py="2" ref={pageListRef}>
+      <Stack maxW="siteMaxWidth" w="100%" spacing="4" py="2" ref={pageListRef}>
         <Box>
           <Text fontSize="xl" fontWeight="semibold">{`${
             data?.user ? data.user.username : "User"

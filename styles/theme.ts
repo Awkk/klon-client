@@ -13,4 +13,7 @@ export const theme = extendTheme({
       },
     },
   },
+  sizes: {
+    siteMaxWidth: "72rem",
+  },
 });

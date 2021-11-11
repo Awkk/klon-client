@@ -35,7 +35,7 @@ const Post: React.FC<PostProps> = ({}) => {
       <Head>
         <title>{post.title} - Klon</title>
       </Head>
-      <Flex w="100%" maxW="8xl" direction="column">
+      <Flex w="100%" maxW="siteMaxWidth" direction="column">
         <PostItem
           post={post}
           styleProps={

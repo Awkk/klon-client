@@ -44,7 +44,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Klon</title>
       </Head>
-      <Stack maxW="8xl" w="100%" spacing="4" py="2" ref={pageListRef}>
+      <Stack maxW="siteMaxWidth" w="100%" spacing="4" py="2" ref={pageListRef}>
         {data?.me ? <CreatePostWidget /> : null}
         <Box>
           {pageVariables.map((variables, i) => {
