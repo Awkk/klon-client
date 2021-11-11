@@ -94,63 +94,70 @@ export const PostItem = ({ post, listMode, styleProps }: PostItemProps) => {
           />
         </Flex>
       )}
-      <Flex direction={"column"} ml={[2, 3]} w="100%">
-        <PostedBy author={post.author} createdDate={post.createdDate} />
-        <Box wordBreak="break-word" whiteSpace="pre-wrap">
-          {isEditing ? (
-            <PostUpdateForm post={post} setIsEditing={setIsEditing} />
-          ) : (
-            <>
-              <Box mt="1">
-                <Text fontSize={listMode ? "md" : "lg"} fontWeight="medium">
-                  {post.title}
-                </Text>
-              </Box>
-              {post.link ? (
-                <Box
-                  mb="1"
-                  width="fit-content"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  <Text noOfLines={1}>
-                    <Link
-                      fontSize="xs"
-                      color={linkColor}
-                      href={post.link}
-                      isExternal
-                    >
-                      {post.link}
-                    </Link>
+      <Flex
+        direction={"column"}
+        ml={[2, 3]}
+        w="100%"
+        justifyContent="space-between"
+      >
+        <Box>
+          <PostedBy author={post.author} createdDate={post.createdDate} />
+          <Box wordBreak="break-word" whiteSpace="pre-wrap">
+            {isEditing ? (
+              <PostUpdateForm post={post} setIsEditing={setIsEditing} />
+            ) : (
+              <>
+                <Box mt="1">
+                  <Text fontSize={listMode ? "md" : "lg"} fontWeight="medium">
+                    {post.title}
                   </Text>
                 </Box>
-              ) : null}
-              {post.link && !listMode && ReactPlayer.canPlay(post.link) ? (
-                <Box my="3" mr="2" position="relative" pt="56.25%">
-                  <ReactPlayer
-                    url={post.link}
-                    controls={true}
-                    width="100%"
-                    height="100%"
-                    style={{ position: "absolute", top: 0, left: 0 }}
-                  />
-                </Box>
-              ) : null}
-              {post.link &&
-              !listMode &&
-              /\.(jpeg|jpg|gif|png)$/.test(post.link) ? (
-                <Box my="3">
-                  <Image src={post.link} alt={`Image for ${post.title}`} />
-                </Box>
-              ) : null}
-              {post.text ? (
-                <Box my="1">
-                  <Text fontSize="md">{post.text}</Text>
-                </Box>
-              ) : null}
-            </>
-          )}
+                {post.link ? (
+                  <Box
+                    mb="1"
+                    width="fit-content"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    <Text noOfLines={1}>
+                      <Link
+                        fontSize="xs"
+                        color={linkColor}
+                        href={post.link}
+                        isExternal
+                      >
+                        {post.link}
+                      </Link>
+                    </Text>
+                  </Box>
+                ) : null}
+                {post.link && !listMode && ReactPlayer.canPlay(post.link) ? (
+                  <Box my="3" mr="2" position="relative" pt="56.25%">
+                    <ReactPlayer
+                      url={post.link}
+                      controls={true}
+                      width="100%"
+                      height="100%"
+                      style={{ position: "absolute", top: 0, left: 0 }}
+                    />
+                  </Box>
+                ) : null}
+                {post.link &&
+                !listMode &&
+                /\.(jpeg|jpg|gif|png)$/.test(post.link) ? (
+                  <Box my="3">
+                    <Image src={post.link} alt={`Image for ${post.title}`} />
+                  </Box>
+                ) : null}
+                {post.text ? (
+                  <Box my="1">
+                    <Text fontSize="md">{post.text}</Text>
+                  </Box>
+                ) : null}
+              </>
+            )}
+          </Box>
         </Box>
         <Flex
           direction={["column", "row"]}
