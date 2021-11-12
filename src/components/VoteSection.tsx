@@ -1,5 +1,4 @@
-import { Flex } from "@chakra-ui/layout";
-import { IconButton, Text, useColorModeValue } from "@chakra-ui/react";
+import { Flex, IconButton, Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import {
   TiArrowDownOutline,
@@ -14,6 +13,7 @@ interface VoteSectionProps {
   score: number;
   voteStatus: number;
   locked?: boolean;
+  horizontal?: boolean;
 }
 
 enum VoteValue {
@@ -27,13 +27,18 @@ export const VoteSection: React.FC<VoteSectionProps> = ({
   score,
   voteStatus,
   locked,
+  horizontal,
 }) => {
   const [_, vote] = useVoteMutation();
 
   const voteGray = useColorModeValue("gray.300", "gray.600");
 
   return (
-    <Flex direction={"column"} justifyContent={"center"} alignItems={"center"}>
+    <Flex
+      direction={horizontal ? "row" : "column"}
+      justifyContent="center"
+      alignItems="center"
+    >
       <IconButton
         aria-label="upvote post"
         icon={
@@ -56,7 +61,13 @@ export const VoteSection: React.FC<VoteSectionProps> = ({
         }}
         isDisabled={locked}
       />
-      {locked ? <span>&nbsp;</span> : <Text fontSize="sm">{score}</Text>}
+      {locked ? (
+        <span>&nbsp;</span>
+      ) : (
+        <Flex justifyContent="center" w="6">
+          <Text fontSize="xs">{score}</Text>
+        </Flex>
+      )}
       <IconButton
         aria-label="downvote post"
         icon={

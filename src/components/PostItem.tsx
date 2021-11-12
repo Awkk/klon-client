@@ -5,6 +5,7 @@ import {
   Image,
   Link,
   Text,
+  useBreakpointValue,
   useColorModeValue,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
@@ -37,6 +38,8 @@ export const PostItem = ({ post, listMode, styleProps }: PostItemProps) => {
   const previewBgColor = useColorModeValue("gray.100", "gray.700");
   const linkColor = useColorModeValue("cyan.600", "cyan.500");
 
+  const isCompact = useBreakpointValue([true, false]);
+
   const imageW = ["90px", "130px"];
   const imageH = ["90px", "90px"];
 
@@ -50,7 +53,7 @@ export const PostItem = ({ post, listMode, styleProps }: PostItemProps) => {
   const body = (
     <Flex
       w="100%"
-      px={[0, 2]}
+      px={[1, 2]}
       pt={[1, 2]}
       pb={1}
       bgColor={bgColor}
@@ -62,19 +65,19 @@ export const PostItem = ({ post, listMode, styleProps }: PostItemProps) => {
       _hover={listMode ? { borderColor: hoverBorderColor } : undefined}
       {...styleProps}
     >
-      <Box
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        alignItems="flex-start"
-      >
-        <VoteSection
-          id={post.id}
-          score={post.score}
-          voteStatus={post.voteStatus}
-          // horizontal
-        />
-      </Box>
+      {isCompact === false ? (
+        <Box
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <VoteSection
+            id={post.id}
+            score={post.score}
+            voteStatus={post.voteStatus}
+          />
+        </Box>
+      ) : null}
       {isEditing || !listMode ? null : (
         <Flex
           ml={[2, 3]}
@@ -97,7 +100,7 @@ export const PostItem = ({ post, listMode, styleProps }: PostItemProps) => {
       )}
       <Flex
         direction={"column"}
-        ml={[2, 3]}
+        mx={[2, 3]}
         w="100%"
         justifyContent="space-between"
       >
@@ -161,20 +164,38 @@ export const PostItem = ({ post, listMode, styleProps }: PostItemProps) => {
           </Box>
         </Box>
         <Flex
-          direction={["column", "row"]}
-          pr="2"
-          justifyContent="space-between"
+          mt="3"
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
         >
+          {isCompact ? (
+            <Box
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <VoteSection
+                id={post.id}
+                score={post.score}
+                voteStatus={post.voteStatus}
+                horizontal
+              />
+            </Box>
+          ) : null}
           <PostActionBar
             authorId={post.author.id}
             postId={post.id}
             comments={post.commentsCount}
             setIsEditing={setIsEditing}
+            compact={isCompact}
           />
           {!listMode ? (
-            <Text fontSize="xs" color={infoTextColor}>
-              {post.views === 1 ? "view" : "views"}: {post.views}
-            </Text>
+            <Flex flex="1" justifyContent="flex-end">
+              <Text fontSize="xs" color={infoTextColor}>
+                {post.views === 1 ? "view" : "views"}: {post.views}
+              </Text>
+            </Flex>
           ) : null}
         </Flex>
       </Flex>

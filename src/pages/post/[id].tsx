@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -22,13 +22,16 @@ const Post: React.FC<PostProps> = ({}) => {
     pause: postId === -1,
   });
 
+  const bgColor = useColorModeValue("gray.50", "gray.800");
+  const borderColor = useColorModeValue("gray.300", "gray.600");
+
   const post = data?.post;
 
   if (fetching) {
     return <PostSkeleton />;
   }
   if (!post) {
-    return <Box>Error</Box>;
+    return <Box>Post not found.</Box>;
   }
   return (
     <>
@@ -44,8 +47,21 @@ const Post: React.FC<PostProps> = ({}) => {
               : { borderBottomRadius: "md" }
           }
         />
-        {meData?.me ? <CreateCommentWidget postId={post.id} /> : null}
-        <Box mt="3">
+        {meData?.me ? (
+          <Flex
+            w="100%"
+            px={["2", "4"]}
+            py="3"
+            bgColor={bgColor}
+            borderWidth="0.5px"
+            borderTopWidth="0"
+            borderColor={borderColor}
+            borderBottomRadius="md"
+          >
+            <CreateCommentWidget postId={post.id} />
+          </Flex>
+        ) : null}
+        <Box mt="1">
           <CommentList comments={post.comments} />
         </Box>
       </Flex>

@@ -1,4 +1,4 @@
-import { Box, Button, Flex, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useCreateCommentMutation } from "../generated/graphql";
@@ -21,21 +21,9 @@ export const CreateCommentWidget: React.FC<CreateCommentWidgetProps> = ({
   postId,
 }) => {
   const [, createComment] = useCreateCommentMutation();
-  const bgColor = useColorModeValue("gray.50", "gray.800");
-  const borderColor = useColorModeValue("gray.300", "gray.600");
 
   return (
-    <Flex
-      w="100%"
-      pl="12"
-      pr="4"
-      py="3"
-      bgColor={bgColor}
-      borderWidth="0.5px"
-      borderTopWidth="0"
-      borderColor={borderColor}
-      borderBottomRadius="md"
-    >
+    <Flex w="100%">
       <Box w="100%">
         <Formik
           initialValues={initialValues}

@@ -15,6 +15,7 @@ interface PostActionBarProps {
   authorId: number;
   comments: number;
   setIsEditing: (flag: boolean) => void;
+  compact?: boolean;
 }
 
 export const PostActionBar: React.FC<PostActionBarProps> = ({
@@ -22,6 +23,7 @@ export const PostActionBar: React.FC<PostActionBarProps> = ({
   authorId,
   comments,
   setIsEditing,
+  compact,
 }) => {
   const [{ data }] = useMeQuery();
   const [_, deletePost] = useDeletePostMutation();
@@ -56,7 +58,7 @@ export const PostActionBar: React.FC<PostActionBarProps> = ({
             }}
             {...buttonStyle}
           >
-            Edit
+            {!compact ? "Edit" : null}
           </Button>
           <Button
             leftIcon={<BiTrash />}
@@ -66,7 +68,7 @@ export const PostActionBar: React.FC<PostActionBarProps> = ({
             }}
             {...buttonStyle}
           >
-            Delete
+            {!compact ? "Delete" : null}
           </Button>
           <Dialog
             header="Delete post?"
