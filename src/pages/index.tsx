@@ -47,7 +47,6 @@ const Home: NextPage = () => {
         period: period,
       },
     ]);
-    console.log(sort, order, period);
   }, [sort, order, period]);
 
   useEffect(() => {
