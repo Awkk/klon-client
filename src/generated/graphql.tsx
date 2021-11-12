@@ -152,6 +152,7 @@ export type QueryPostsArgs = {
   idCursor?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   order?: Maybe<SortOrder>;
+  period?: Maybe<SortPeriod>;
   sort?: Maybe<PostSort>;
   userId?: Maybe<Scalars['Int']>;
 };
@@ -164,6 +165,14 @@ export type QueryUserArgs = {
 export enum SortOrder {
   Asc = 'ASC',
   Desc = 'DESC'
+}
+
+export enum SortPeriod {
+  All = 'all',
+  Day = 'day',
+  Month = 'month',
+  Week = 'week',
+  Year = 'year'
 }
 
 export type User = {
@@ -297,6 +306,7 @@ export type PostsQueryVariables = Exact<{
   userId?: Maybe<Scalars['Int']>;
   sort?: Maybe<PostSort>;
   order?: Maybe<SortOrder>;
+  period?: Maybe<SortPeriod>;
 }>;
 
 
@@ -516,7 +526,7 @@ export function usePostQuery(options: Omit<Urql.UseQueryArgs<PostQueryVariables>
   return Urql.useQuery<PostQuery>({ query: PostDocument, ...options });
 };
 export const PostsDocument = gql`
-    query Posts($limit: Int, $cursor: String, $idCursor: Int, $userId: Int, $sort: PostSort, $order: SortOrder) {
+    query Posts($limit: Int, $cursor: String, $idCursor: Int, $userId: Int, $sort: PostSort, $order: SortOrder, $period: SortPeriod) {
   posts(
     limit: $limit
     cursor: $cursor
@@ -524,6 +534,7 @@ export const PostsDocument = gql`
     userId: $userId
     sort: $sort
     order: $order
+    period: $period
   ) {
     id
     posts {

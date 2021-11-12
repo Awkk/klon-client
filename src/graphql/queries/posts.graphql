@@ -5,6 +5,7 @@ query Posts(
   $userId: Int
   $sort: PostSort
   $order: SortOrder
+  $period: SortPeriod
 ) {
   posts(
     limit: $limit
@@ -13,6 +14,7 @@ query Posts(
     userId: $userId
     sort: $sort
     order: $order
+    period: $period
   ) {
     id
     posts {

@@ -12,6 +12,7 @@ import {
   PostSort,
   PostsQueryVariables,
   SortOrder,
+  SortPeriod,
   useMeQuery,
 } from "../generated/graphql";
 
@@ -19,6 +20,7 @@ const Home: NextPage = () => {
   const [{ data }] = useMeQuery();
   const [sort, setSort] = useState<PostSort>(PostSort.CreatedDate);
   const [order, setOrder] = useState<SortOrder>(SortOrder.Desc);
+  const [period, setPeriod] = useState<SortPeriod>(SortPeriod.All);
   const [pageVariables, setPageVariables] = useState<PostsQueryVariables[]>([
     {
       limit: postPerPageLimit,
@@ -26,6 +28,7 @@ const Home: NextPage = () => {
       idCursor: null,
       sort: sort,
       order: order,
+      period: period,
     },
   ]);
   const [nextPageVariable, setNextPageVariable] =
@@ -41,9 +44,11 @@ const Home: NextPage = () => {
         idCursor: null,
         sort: sort,
         order: order,
+        period: period,
       },
     ]);
-  }, [sort, order]);
+    console.log(sort, order, period);
+  }, [sort, order, period]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,7 +78,11 @@ const Home: NextPage = () => {
       </Head>
       <Stack maxW="siteMaxWidth" w="100%" spacing="3" ref={pageListRef}>
         {data?.me ? <CreatePostWidget /> : null}
-        <PostSortWidget setSort={setSort} setOrder={setOrder} />
+        <PostSortWidget
+          setSort={setSort}
+          setOrder={setOrder}
+          setPeriod={setPeriod}
+        />
         <Box>
           {pageVariables.map((variables, i) => (
             <PostPage
@@ -88,6 +97,7 @@ const Home: NextPage = () => {
                   idCursor: idCursor,
                   order: order,
                   sort: sort,
+                  period: period,
                 })
               }
             />
