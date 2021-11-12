@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { PostPage } from "../../components/PostPage";
 import { PostSortWidget } from "../../components/PostSortWidget";
 import { urqlClientConfig } from "../../config/urqlClientConfig";
@@ -71,6 +71,21 @@ const User: NextPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [nextPageVariable, pageVariables]);
 
+  const setNextCursor = useCallback(
+    (cursor, idCursor) => {
+      setNextPageVariable({
+        userId: userId,
+        limit: postPerPageLimit,
+        cursor: cursor,
+        idCursor: idCursor,
+        sort: sort,
+        order: order,
+        period: period,
+      });
+    },
+    [userId, sort, order, period]
+  );
+
   return (
     <>
       <Head>
@@ -95,17 +110,7 @@ const User: NextPage = () => {
                 variables={variables}
                 sort={sort}
                 isLastPage={i === pageVariables.length - 1}
-                setNextCursor={(cursor, idCursor) =>
-                  setNextPageVariable({
-                    userId: userId,
-                    limit: postPerPageLimit,
-                    cursor: cursor,
-                    idCursor: idCursor,
-                    sort: sort,
-                    order: order,
-                    period: period,
-                  })
-                }
+                setNextCursor={setNextCursor}
               />
             );
           })}

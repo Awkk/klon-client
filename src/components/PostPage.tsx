@@ -31,8 +31,14 @@ export const PostPage = ({
       const lastPost = data.posts.posts[data.posts.posts.length - 1];
       setNextCursor("" + lastPost[sort], lastPost.id);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetching, isLastPage, data?.posts.hasMore, data?.posts.posts]);
+  }, [
+    fetching,
+    isLastPage,
+    data?.posts.hasMore,
+    data?.posts.posts,
+    sort,
+    setNextCursor,
+  ]);
 
   return (
     <>

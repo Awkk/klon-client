@@ -2,7 +2,7 @@ import { Box, Stack } from "@chakra-ui/layout";
 import type { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import Head from "next/head";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { CreatePostWidget } from "../components/CreatePostWidget";
 import { PostPage } from "../components/PostPage";
 import { PostSortWidget } from "../components/PostSortWidget";
@@ -70,6 +70,20 @@ const Home: NextPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [nextPageVariable, pageVariables]);
 
+  const setNextCursor = useCallback(
+    (cursor, idCursor) => {
+      setNextPageVariable({
+        limit: postPerPageLimit,
+        cursor: cursor,
+        idCursor: idCursor,
+        order: order,
+        sort: sort,
+        period: period,
+      });
+    },
+    [order, sort, period]
+  );
+
   return (
     <>
       <Head>
@@ -89,16 +103,7 @@ const Home: NextPage = () => {
               variables={variables}
               sort={sort}
               isLastPage={i === pageVariables.length - 1}
-              setNextCursor={(cursor, idCursor) =>
-                setNextPageVariable({
-                  limit: postPerPageLimit,
-                  cursor: cursor,
-                  idCursor: idCursor,
-                  order: order,
-                  sort: sort,
-                  period: period,
-                })
-              }
+              setNextCursor={setNextCursor}
             />
           ))}
         </Box>
