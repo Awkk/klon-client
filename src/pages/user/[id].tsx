@@ -5,14 +5,24 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { PostPage } from "../../components/PostPage";
+import { PostSortWidget } from "../../components/PostSortWidget";
 import { urqlClientConfig } from "../../config/urqlClientConfig";
 import { postPerPageLimit } from "../../constants/post";
-import { PostsQueryVariables, useUserQuery } from "../../generated/graphql";
+import {
+  PostSort,
+  PostsQueryVariables,
+  SortOrder,
+  SortPeriod,
+  useUserQuery,
+} from "../../generated/graphql";
 
 const User: NextPage = () => {
   const router = useRouter();
   const userId =
     typeof router.query.id === "string" ? parseInt(router.query.id) : -1;
+  const [sort, setSort] = useState<PostSort>(PostSort.CreatedDate);
+  const [order, setOrder] = useState<SortOrder>(SortOrder.Desc);
+  const [period, setPeriod] = useState<SortPeriod>(SortPeriod.All);
   const [pageVariables, setPageVariables] = useState<PostsQueryVariables[]>([]);
   const [nextPageVariable, setNextPageVariable] =
     useState<PostsQueryVariables | null>(null);
@@ -27,13 +37,17 @@ const User: NextPage = () => {
     if (userId !== -1) {
       setPageVariables([
         {
-          limit: postPerPageLimit,
-          cursor: null as null | string,
           userId: userId,
+          limit: postPerPageLimit,
+          cursor: null,
+          idCursor: null,
+          sort: sort,
+          order: order,
+          period: period,
         },
       ]);
     }
-  }, [userId]);
+  }, [userId, order, period, sort]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,18 +81,28 @@ const User: NextPage = () => {
             data?.user ? data.user.username : "User"
           }'s posts`}</Text>
         </Box>
+        <PostSortWidget
+          setSort={setSort}
+          setOrder={setOrder}
+          setPeriod={setPeriod}
+        />
         <Box>
           {pageVariables.map((variables, i) => {
             return (
               <PostPage
                 key={"" + variables.cursor}
                 variables={variables}
+                sort={sort}
                 isLastPage={i === pageVariables.length - 1}
-                setNextCursor={(cursor) =>
+                setNextCursor={(cursor, idCursor) =>
                   setNextPageVariable({
+                    userId: userId,
                     limit: postPerPageLimit,
                     cursor: cursor,
-                    userId: userId,
+                    idCursor: idCursor,
+                    sort: sort,
+                    order: order,
+                    period: period,
                   })
                 }
               />
