@@ -46,6 +46,7 @@ const User: NextPage = () => {
           period: period,
         },
       ]);
+      setNextPageVariable(null);
     }
   }, [userId, order, period, sort]);
 
