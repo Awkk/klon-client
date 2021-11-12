@@ -181,7 +181,9 @@ export const PostItem = ({ post, listMode, styleProps }: PostItemProps) => {
   );
 
   return listMode ? (
-    <NextLink href={`/post/${post.id}`}>{body}</NextLink>
+    <NextLink href={`/post/${post.id}`}>
+      <a>{body}</a>
+    </NextLink>
   ) : (
     <>{body}</>
   );

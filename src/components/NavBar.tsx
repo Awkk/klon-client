@@ -83,9 +83,11 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
       >
         <Box>
           <NextLink href="/">
-            <Text mx="4" cursor="pointer" fontSize="3xl" fontWeight="bold">
-              Klon
-            </Text>
+            <a>
+              <Text mx="4" cursor="pointer" fontSize="3xl" fontWeight="bold">
+                Klon
+              </Text>
+            </a>
           </NextLink>
         </Box>
         <Flex ml="auto" mr="1" align="center">
