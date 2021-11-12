@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Stack, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import {
   PostSort,
@@ -40,18 +40,33 @@ export const PostPage = ({
     setNextCursor,
   ]);
 
+  if (fetching) {
+    return (
+      <Box>
+        <PostSkeleton />
+        <PostSkeleton />
+      </Box>
+    );
+  }
+
+  if (data?.posts.posts.length === 0) {
+    return (
+      <Stack align="center" spacing="3" p="4">
+        <Text fontSize="lg" fontWeight="semibold">
+          No posts were found.
+        </Text>
+        <Text fontSize="lg" fontWeight="semibold">
+          Try Changing the filters.
+        </Text>
+      </Stack>
+    );
+  }
+
   return (
     <>
-      {fetching ? (
-        <Box>
-          <PostSkeleton />
-          <PostSkeleton />
-        </Box>
-      ) : (
-        data?.posts.posts.map((post) => (
-          <PostItem key={post.id} post={post} listMode />
-        ))
-      )}
+      {data?.posts.posts.map((post) => (
+        <PostItem key={post.id} post={post} listMode />
+      ))}
     </>
   );
 };
