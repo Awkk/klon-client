@@ -72,6 +72,7 @@ export const PostItem = ({ post, listMode, styleProps }: PostItemProps) => {
           id={post.id}
           score={post.score}
           voteStatus={post.voteStatus}
+          // horizontal
         />
       </Box>
       {isEditing || !listMode ? null : (
@@ -181,9 +182,7 @@ export const PostItem = ({ post, listMode, styleProps }: PostItemProps) => {
   );
 
   return listMode ? (
-    <NextLink href={`/post/${post.id}`}>
-      <a>{body}</a>
-    </NextLink>
+    <NextLink href={`/post/${post.id}`}>{body}</NextLink>
   ) : (
     <>{body}</>
   );

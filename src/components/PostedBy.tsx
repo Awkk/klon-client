@@ -27,7 +27,7 @@ export const PostedBy = ({ author, createdDate, short }: PostedByProps) => {
   return (
     <Flex fontSize="xs" color={infoTextColor} whiteSpace="pre-wrap">
       {!short ? <Text>Posted by </Text> : null}
-      <NextLink href="/user/[id]" as={`/user/${author.id}`}>
+      <NextLink href={`/user/${author.id}`}>
         <Link>{author.username}</Link>
       </NextLink>
       <Text>{" • "}</Text>
