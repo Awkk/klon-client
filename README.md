@@ -1,12 +1,10 @@
 # Klon
 
-A responsive reddit clone that connect to a GraphQL API.
+A responsive web client that works with GraphQL API [Klon-Server](https://github.com/Awkk/klon-server) to mimic features of Reddit.
 
 ## About The Project
 
-- Demo: https://klon.andrewkkw.com/
-
-- Backend: https://github.com/Awkk/klon-server
+https://klon.andrewkkw.com/
 
 ![Klon Screen Shot](https://imgur.com/5zuUFWo.png)
 
@@ -34,7 +32,7 @@ $ npm install
 
 ### Installation
 
-First, clone and run a copy of the [Klon-server](https://github.com/Awkk/klon-server).
+First, clone and run a copy of the [Klon-Server](https://github.com/Awkk/klon-server).
 
 Then create file `.env.local` in root directory
 and set up enviornment variable `NEXT_PUBLIC_API_URL` and point it to your klon-server API url:
